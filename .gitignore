@@ -26,3 +26,21 @@ other/brick_home.glb
 other/new/
 other/japan/pharmacy.zip
 other/japan/low_poly_pharmacy.glb
+
+build/
+install/
+log/
+
+# Windows download metadata (Zone.Identifier alternate data streams)
+**/*Zone.Identifier*
+
+# Python build artifacts
+**/__pycache__/
+**/*.egg-info/
+**/*.pyc
+
+# leftover archives
+src.zip
+
+# town launch (deferred to Part 2)
+src\my_local\maps

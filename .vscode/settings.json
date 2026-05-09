@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "**/setup.cfg":      true,
+        "**/setup.py":       true,
+        "**/package.xml":    true,
+        "**/CMakeLists.txt": true,
+        "**/resource":       true,
+        "**/test":           true,
+        "**/__init__.py":    true,
+        "**/__pycache__":    true,
+        "**/*.egg-info":     true,
+        "**/*.pyc":          true
+    },
+    "search.exclude": {
+        "**/build":          true,
+        "**/install":        true,
+        "**/log":            true,
+        "**/__pycache__":    true,
+        "**/*.egg-info":     true
+    }
+}
