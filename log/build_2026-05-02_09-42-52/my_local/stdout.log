@@ -1,0 +1,30 @@
+running egg_info
+creating ../../build/my_local/my_local.egg-info
+writing ../../build/my_local/my_local.egg-info/PKG-INFO
+writing dependency_links to ../../build/my_local/my_local.egg-info/dependency_links.txt
+writing requirements to ../../build/my_local/my_local.egg-info/requires.txt
+writing top-level names to ../../build/my_local/my_local.egg-info/top_level.txt
+writing manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+reading manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+writing manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/test/ros2_ws/build/my_local/build
+creating /home/test/ros2_ws/build/my_local/build/lib
+creating /home/test/ros2_ws/build/my_local/build/lib/my_local
+copying my_local/__init__.py -> /home/test/ros2_ws/build/my_local/build/lib/my_local
+running install
+running install_lib
+creating /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local
+copying /home/test/ros2_ws/build/my_local/build/lib/my_local/__init__.py -> /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local
+byte-compiling /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/test/ros2_ws/install/my_local/share/ament_index
+creating /home/test/ros2_ws/install/my_local/share/ament_index/resource_index
+creating /home/test/ros2_ws/install/my_local/share/ament_index/resource_index/packages
+copying resource/my_local -> /home/test/ros2_ws/install/my_local/share/ament_index/resource_index/packages
+copying package.xml -> /home/test/ros2_ws/install/my_local/share/my_local
+running install_egg_info
+Copying ../../build/my_local/my_local.egg-info to /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/test/ros2_ws/build/my_local/install.log'

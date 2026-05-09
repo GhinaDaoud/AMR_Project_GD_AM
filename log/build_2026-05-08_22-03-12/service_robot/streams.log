@@ -1,0 +1,19 @@
+[3.208s] Invoking command in '/home/test/ros2_ws/src/service_robot': PYTHONPATH=/home/test/ros2_ws/build/service_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/service_robot build --build-base /home/test/ros2_ws/build/service_robot/build install --record /home/test/ros2_ws/build/service_robot/install.log --single-version-externally-managed install_data
+[3.907s] running egg_info
+[3.957s] writing ../../build/service_robot/service_robot.egg-info/PKG-INFO
+[3.958s] writing dependency_links to ../../build/service_robot/service_robot.egg-info/dependency_links.txt
+[3.959s] writing requirements to ../../build/service_robot/service_robot.egg-info/requires.txt
+[3.959s] writing top-level names to ../../build/service_robot/service_robot.egg-info/top_level.txt
+[4.084s] reading manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+[4.085s] writing manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+[4.085s] running build
+[4.085s] running build_py
+[4.085s] running install
+[4.096s] running install_lib
+[4.142s] running install_data
+[4.142s] running install_egg_info
+[4.196s] removing '/home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot-0.0.0-py3.12.egg-info' (and everything under it)
+[4.196s] Copying ../../build/service_robot/service_robot.egg-info to /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot-0.0.0-py3.12.egg-info
+[4.199s] running install_scripts
+[4.522s] writing list of installed files to '/home/test/ros2_ws/build/service_robot/install.log'
+[4.614s] Invoked command in '/home/test/ros2_ws/src/service_robot' returned '0': PYTHONPATH=/home/test/ros2_ws/build/service_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/service_robot build --build-base /home/test/ros2_ws/build/service_robot/build install --record /home/test/ros2_ws/build/service_robot/install.log --single-version-externally-managed install_data

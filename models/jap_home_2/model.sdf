@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="jap_home_2">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 1.5708 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://jap_home_2/meshes/model.glb</uri>
+            <scale>0.008 0.008 0.008</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://jap_home_2/meshes/model.glb</uri>
+            <scale>0.008 0.008 0.008</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

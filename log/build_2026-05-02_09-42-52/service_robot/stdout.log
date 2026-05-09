@@ -1,0 +1,30 @@
+running egg_info
+creating ../../build/service_robot/service_robot.egg-info
+writing ../../build/service_robot/service_robot.egg-info/PKG-INFO
+writing dependency_links to ../../build/service_robot/service_robot.egg-info/dependency_links.txt
+writing requirements to ../../build/service_robot/service_robot.egg-info/requires.txt
+writing top-level names to ../../build/service_robot/service_robot.egg-info/top_level.txt
+writing manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+reading manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+writing manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/test/ros2_ws/build/service_robot/build
+creating /home/test/ros2_ws/build/service_robot/build/lib
+creating /home/test/ros2_ws/build/service_robot/build/lib/service_robot
+copying service_robot/__init__.py -> /home/test/ros2_ws/build/service_robot/build/lib/service_robot
+running install
+running install_lib
+creating /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot
+copying /home/test/ros2_ws/build/service_robot/build/lib/service_robot/__init__.py -> /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot
+byte-compiling /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/test/ros2_ws/install/service_robot/share/ament_index
+creating /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index
+creating /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index/packages
+copying resource/service_robot -> /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index/packages
+copying package.xml -> /home/test/ros2_ws/install/service_robot/share/service_robot
+running install_egg_info
+Copying ../../build/service_robot/service_robot.egg-info to /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/test/ros2_ws/build/service_robot/install.log'

@@ -1,0 +1,32 @@
+[2.897s] Invoking command in '/home/test/ros2_ws/src/landmark_detector': PYTHONPATH=/home/test/ros2_ws/build/landmark_detector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/landmark_detector build --build-base /home/test/ros2_ws/build/landmark_detector/build install --record /home/test/ros2_ws/build/landmark_detector/install.log --single-version-externally-managed install_data
+[3.263s] running egg_info
+[3.263s] creating ../../build/landmark_detector/landmark_detector.egg-info
+[3.286s] writing ../../build/landmark_detector/landmark_detector.egg-info/PKG-INFO
+[3.286s] writing dependency_links to ../../build/landmark_detector/landmark_detector.egg-info/dependency_links.txt
+[3.286s] writing requirements to ../../build/landmark_detector/landmark_detector.egg-info/requires.txt
+[3.286s] writing top-level names to ../../build/landmark_detector/landmark_detector.egg-info/top_level.txt
+[3.287s] writing manifest file '../../build/landmark_detector/landmark_detector.egg-info/SOURCES.txt'
+[3.334s] reading manifest file '../../build/landmark_detector/landmark_detector.egg-info/SOURCES.txt'
+[3.334s] writing manifest file '../../build/landmark_detector/landmark_detector.egg-info/SOURCES.txt'
+[3.335s] running build
+[3.335s] running build_py
+[3.335s] creating /home/test/ros2_ws/build/landmark_detector/build
+[3.335s] creating /home/test/ros2_ws/build/landmark_detector/build/lib
+[3.336s] creating /home/test/ros2_ws/build/landmark_detector/build/lib/landmark_detector
+[3.336s] copying landmark_detector/__init__.py -> /home/test/ros2_ws/build/landmark_detector/build/lib/landmark_detector
+[3.336s] running install
+[3.343s] running install_lib
+[3.365s] creating /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector
+[3.366s] copying /home/test/ros2_ws/build/landmark_detector/build/lib/landmark_detector/__init__.py -> /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector
+[3.367s] byte-compiling /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector/__init__.py to __init__.cpython-312.pyc
+[3.367s] running install_data
+[3.367s] creating /home/test/ros2_ws/install/landmark_detector/share/ament_index
+[3.368s] creating /home/test/ros2_ws/install/landmark_detector/share/ament_index/resource_index
+[3.368s] creating /home/test/ros2_ws/install/landmark_detector/share/ament_index/resource_index/packages
+[3.368s] copying resource/landmark_detector -> /home/test/ros2_ws/install/landmark_detector/share/ament_index/resource_index/packages
+[3.369s] copying package.xml -> /home/test/ros2_ws/install/landmark_detector/share/landmark_detector
+[3.369s] running install_egg_info
+[3.401s] Copying ../../build/landmark_detector/landmark_detector.egg-info to /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector-0.0.0-py3.12.egg-info
+[3.404s] running install_scripts
+[3.610s] writing list of installed files to '/home/test/ros2_ws/build/landmark_detector/install.log'
+[3.688s] Invoked command in '/home/test/ros2_ws/src/landmark_detector' returned '0': PYTHONPATH=/home/test/ros2_ws/build/landmark_detector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/landmark_detector build --build-base /home/test/ros2_ws/build/landmark_detector/build install --record /home/test/ros2_ws/build/landmark_detector/install.log --single-version-externally-managed install_data

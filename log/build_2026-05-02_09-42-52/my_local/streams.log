@@ -1,0 +1,32 @@
+[2.824s] Invoking command in '/home/test/ros2_ws/src/my_local': PYTHONPATH=/home/test/ros2_ws/build/my_local/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/my_local/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_local build --build-base /home/test/ros2_ws/build/my_local/build install --record /home/test/ros2_ws/build/my_local/install.log --single-version-externally-managed install_data
+[3.241s] running egg_info
+[3.241s] creating ../../build/my_local/my_local.egg-info
+[3.277s] writing ../../build/my_local/my_local.egg-info/PKG-INFO
+[3.277s] writing dependency_links to ../../build/my_local/my_local.egg-info/dependency_links.txt
+[3.278s] writing requirements to ../../build/my_local/my_local.egg-info/requires.txt
+[3.278s] writing top-level names to ../../build/my_local/my_local.egg-info/top_level.txt
+[3.278s] writing manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+[3.345s] reading manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+[3.346s] writing manifest file '../../build/my_local/my_local.egg-info/SOURCES.txt'
+[3.346s] running build
+[3.347s] running build_py
+[3.347s] creating /home/test/ros2_ws/build/my_local/build
+[3.347s] creating /home/test/ros2_ws/build/my_local/build/lib
+[3.348s] creating /home/test/ros2_ws/build/my_local/build/lib/my_local
+[3.348s] copying my_local/__init__.py -> /home/test/ros2_ws/build/my_local/build/lib/my_local
+[3.348s] running install
+[3.355s] running install_lib
+[3.382s] creating /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local
+[3.382s] copying /home/test/ros2_ws/build/my_local/build/lib/my_local/__init__.py -> /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local
+[3.383s] byte-compiling /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local/__init__.py to __init__.cpython-312.pyc
+[3.384s] running install_data
+[3.384s] creating /home/test/ros2_ws/install/my_local/share/ament_index
+[3.385s] creating /home/test/ros2_ws/install/my_local/share/ament_index/resource_index
+[3.385s] creating /home/test/ros2_ws/install/my_local/share/ament_index/resource_index/packages
+[3.385s] copying resource/my_local -> /home/test/ros2_ws/install/my_local/share/ament_index/resource_index/packages
+[3.386s] copying package.xml -> /home/test/ros2_ws/install/my_local/share/my_local
+[3.386s] running install_egg_info
+[3.425s] Copying ../../build/my_local/my_local.egg-info to /home/test/ros2_ws/install/my_local/lib/python3.12/site-packages/my_local-0.0.0-py3.12.egg-info
+[3.426s] running install_scripts
+[3.613s] writing list of installed files to '/home/test/ros2_ws/build/my_local/install.log'
+[3.669s] Invoked command in '/home/test/ros2_ws/src/my_local' returned '0': PYTHONPATH=/home/test/ros2_ws/build/my_local/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/my_local/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_local build --build-base /home/test/ros2_ws/build/my_local/build install --record /home/test/ros2_ws/build/my_local/install.log --single-version-externally-managed install_data

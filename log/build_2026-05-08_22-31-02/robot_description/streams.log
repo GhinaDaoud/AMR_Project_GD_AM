@@ -1,0 +1,45 @@
+[1.129s] Invoking command in '/home/test/ros2_ws/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/test/ros2_ws/install/service_robot:/home/test/ros2_ws/install/robot_localization_pkg:/home/test/ros2_ws/install/robot_exam_localization:/home/test/ros2_ws/install/my_local:/home/test/ros2_ws/install/mission_planner:/home/test/ros2_ws/install/landmark_detector:/opt/ros/jazzy /usr/bin/cmake --build /home/test/ros2_ws/build/robot_description -- -j8 -l8
+[1.456s] Invoked command in '/home/test/ros2_ws/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/test/ros2_ws/install/service_robot:/home/test/ros2_ws/install/robot_localization_pkg:/home/test/ros2_ws/install/robot_exam_localization:/home/test/ros2_ws/install/my_local:/home/test/ros2_ws/install/mission_planner:/home/test/ros2_ws/install/landmark_detector:/opt/ros/jazzy /usr/bin/cmake --build /home/test/ros2_ws/build/robot_description -- -j8 -l8
+[1.473s] Invoking command in '/home/test/ros2_ws/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/test/ros2_ws/install/service_robot:/home/test/ros2_ws/install/robot_localization_pkg:/home/test/ros2_ws/install/robot_exam_localization:/home/test/ros2_ws/install/my_local:/home/test/ros2_ws/install/mission_planner:/home/test/ros2_ws/install/landmark_detector:/opt/ros/jazzy /usr/bin/cmake --install /home/test/ros2_ws/build/robot_description
+[1.489s] -- Install configuration: ""
+[1.489s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/urdf
+[1.490s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/urdf/gazebo_plugins.xacro:Zone.Identifier
+[1.490s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/urdf/gazebo_plugins.xacro
+[1.490s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/urdf/service_robot.urdf.xacro:Zone.Identifier
+[1.491s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/urdf/service_robot.urdf.xacro
+[1.492s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/launch
+[1.492s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/launch/slam.launch.py
+[1.492s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/launch/display.launch.py:Zone.Identifier
+[1.493s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/launch/slam.launch.py:Zone.Identifier
+[1.493s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/launch/display.launch.py
+[1.493s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/config
+[1.493s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/config/slam_config.yaml
+[1.494s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/config/slam_config.yaml:Zone.Identifier
+[1.494s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds
+[1.494s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures
+[1.495s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_pillar_a.png:Zone.Identifier
+[1.496s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_pillar_b.png
+[1.496s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_tl_box.png:Zone.Identifier
+[1.496s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_pillar_a.png
+[1.497s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_diag_block_1.png
+[1.497s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_diag_block_1.png:Zone.Identifier
+[1.497s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_pillar_b.png:Zone.Identifier
+[1.498s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/qr_textures/qr_tl_box.png
+[1.498s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/maze.sdf:Zone.Identifier
+[1.498s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/worlds/maze.sdf
+[1.498s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/ament_index/resource_index/package_run_dependencies/robot_description
+[1.498s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/ament_index/resource_index/parent_prefix_path/robot_description
+[1.498s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/environment/ament_prefix_path.sh
+[1.498s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/environment/ament_prefix_path.dsv
+[1.499s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/environment/path.sh
+[1.499s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/environment/path.dsv
+[1.499s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/local_setup.bash
+[1.500s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/local_setup.sh
+[1.500s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/local_setup.zsh
+[1.500s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/local_setup.dsv
+[1.501s] -- Installing: /home/test/ros2_ws/install/robot_description/share/robot_description/package.dsv
+[1.501s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/ament_index/resource_index/packages/robot_description
+[1.501s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/cmake/robot_descriptionConfig.cmake
+[1.502s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/cmake/robot_descriptionConfig-version.cmake
+[1.502s] -- Up-to-date: /home/test/ros2_ws/install/robot_description/share/robot_description/package.xml
+[1.504s] Invoked command in '/home/test/ros2_ws/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/test/ros2_ws/install/service_robot:/home/test/ros2_ws/install/robot_localization_pkg:/home/test/ros2_ws/install/robot_exam_localization:/home/test/ros2_ws/install/my_local:/home/test/ros2_ws/install/mission_planner:/home/test/ros2_ws/install/landmark_detector:/opt/ros/jazzy /usr/bin/cmake --install /home/test/ros2_ws/build/robot_description

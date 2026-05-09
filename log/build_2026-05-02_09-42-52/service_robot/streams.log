@@ -1,0 +1,32 @@
+[2.835s] Invoking command in '/home/test/ros2_ws/src/service_robot': PYTHONPATH=/home/test/ros2_ws/build/service_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/service_robot build --build-base /home/test/ros2_ws/build/service_robot/build install --record /home/test/ros2_ws/build/service_robot/install.log --single-version-externally-managed install_data
+[3.221s] running egg_info
+[3.221s] creating ../../build/service_robot/service_robot.egg-info
+[3.248s] writing ../../build/service_robot/service_robot.egg-info/PKG-INFO
+[3.248s] writing dependency_links to ../../build/service_robot/service_robot.egg-info/dependency_links.txt
+[3.249s] writing requirements to ../../build/service_robot/service_robot.egg-info/requires.txt
+[3.249s] writing top-level names to ../../build/service_robot/service_robot.egg-info/top_level.txt
+[3.249s] writing manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+[3.315s] reading manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+[3.316s] writing manifest file '../../build/service_robot/service_robot.egg-info/SOURCES.txt'
+[3.316s] running build
+[3.316s] running build_py
+[3.316s] creating /home/test/ros2_ws/build/service_robot/build
+[3.317s] creating /home/test/ros2_ws/build/service_robot/build/lib
+[3.318s] creating /home/test/ros2_ws/build/service_robot/build/lib/service_robot
+[3.318s] copying service_robot/__init__.py -> /home/test/ros2_ws/build/service_robot/build/lib/service_robot
+[3.318s] running install
+[3.326s] running install_lib
+[3.359s] creating /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot
+[3.359s] copying /home/test/ros2_ws/build/service_robot/build/lib/service_robot/__init__.py -> /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot
+[3.360s] byte-compiling /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot/__init__.py to __init__.cpython-312.pyc
+[3.361s] running install_data
+[3.361s] creating /home/test/ros2_ws/install/service_robot/share/ament_index
+[3.362s] creating /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index
+[3.362s] creating /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index/packages
+[3.362s] copying resource/service_robot -> /home/test/ros2_ws/install/service_robot/share/ament_index/resource_index/packages
+[3.362s] copying package.xml -> /home/test/ros2_ws/install/service_robot/share/service_robot
+[3.363s] running install_egg_info
+[3.394s] Copying ../../build/service_robot/service_robot.egg-info to /home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages/service_robot-0.0.0-py3.12.egg-info
+[3.395s] running install_scripts
+[3.565s] writing list of installed files to '/home/test/ros2_ws/build/service_robot/install.log'
+[3.647s] Invoked command in '/home/test/ros2_ws/src/service_robot' returned '0': PYTHONPATH=/home/test/ros2_ws/build/service_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/service_robot/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/service_robot build --build-base /home/test/ros2_ws/build/service_robot/build install --record /home/test/ros2_ws/build/service_robot/install.log --single-version-externally-managed install_data

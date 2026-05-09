@@ -1,0 +1,31 @@
+[0.000000] (-) TimerEvent: {}
+[0.001494] (my_local) JobQueued: {'identifier': 'my_local', 'dependencies': OrderedDict()}
+[0.001644] (robot_exam_localization) JobQueued: {'identifier': 'robot_exam_localization', 'dependencies': OrderedDict()}
+[0.002264] (my_local) JobStarted: {'identifier': 'my_local'}
+[0.042026] (robot_exam_localization) JobStarted: {'identifier': 'robot_exam_localization'}
+[0.100560] (-) TimerEvent: {}
+[0.201088] (-) TimerEvent: {}
+[0.301636] (-) TimerEvent: {}
+[0.402098] (-) TimerEvent: {}
+[0.502756] (-) TimerEvent: {}
+[0.603317] (-) TimerEvent: {}
+[0.703892] (-) TimerEvent: {}
+[0.808096] (-) TimerEvent: {}
+[0.908622] (-) TimerEvent: {}
+[1.010303] (-) TimerEvent: {}
+[1.110880] (-) TimerEvent: {}
+[1.218168] (-) TimerEvent: {}
+[1.323608] (-) TimerEvent: {}
+[1.424141] (-) TimerEvent: {}
+[1.532597] (-) TimerEvent: {}
+[1.634833] (-) TimerEvent: {}
+[1.735505] (-) TimerEvent: {}
+[1.836293] (-) TimerEvent: {}
+[1.942288] (-) TimerEvent: {}
+[2.042859] (-) TimerEvent: {}
+[2.143527] (-) TimerEvent: {}
+[2.244411] (-) TimerEvent: {}
+[2.278669] (robot_exam_localization) StderrLine: {'line': b'Traceback (most recent call last):\n  File "/usr/lib/python3/dist-packages/colcon_core/executor/__init__.py", line 91, in __call__\n    rc = await self.task(*args, **kwargs)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_core/task/__init__.py", line 93, in __call__\n    return await task_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_ros/task/ament_python/build.py", line 51, in build\n    setup_py_data = get_setup_data(self.context.pkg, env)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_core/task/python/__init__.py", line 20, in get_setup_data\n    return dict(pkg.metadata[key](env))\n                ^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_ros/package_augmentation/ros_ament_python.py", line 57, in getter\n    return get_setup_information(\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 249, in get_setup_information\n    _setup_information_cache[hashable_env] = _get_setup_information(\n                                             ^^^^^^^^^^^^^^^^^^^^^^^\n  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 296, in _get_setup_information\n    result = subprocess.run(\n             ^^^^^^^^^^^^^^^\n  File "/usr/lib/python3.12/subprocess.py", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command \'[\'/usr/bin/python3\', \'-c\', \'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \\\'setup.py\\\', script_args=(\\\'--dry-run\\\',), stop_after=\\\'config\\\');skip_keys = (\\\'cmdclass\\\', \\\'distclass\\\', \\\'ext_modules\\\', \\\'metadata\\\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\\\'_\\\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\\\'metadata\\\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\\\'license_files\\\', \\\'provides_extras\\\')};sys.stdout.buffer.write(repr(data).encode(\\\'utf-8\\\'))\']\' returned non-zero exit status 1.\n'}
+[2.281653] (robot_exam_localization) JobEnded: {'identifier': 'robot_exam_localization', 'rc': 1}
+[2.283021] (my_local) JobEnded: {'identifier': 'my_local', 'rc': 'SIGINT'}
+[2.293853] (-) EventReactorShutdown: {}

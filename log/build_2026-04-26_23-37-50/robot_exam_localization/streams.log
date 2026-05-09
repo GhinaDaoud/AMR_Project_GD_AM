@@ -1,0 +1,32 @@
+[3.115s] Invoking command in '/home/test/ros2_ws/src/robot_exam_localization': PYTHONPATH=/home/test/ros2_ws/build/robot_exam_localization/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_exam_localization build --build-base /home/test/ros2_ws/build/robot_exam_localization/build install --record /home/test/ros2_ws/build/robot_exam_localization/install.log --single-version-externally-managed install_data
+[3.804s] running egg_info
+[3.805s] creating ../../build/robot_exam_localization/robot_exam_localization.egg-info
+[3.878s] writing ../../build/robot_exam_localization/robot_exam_localization.egg-info/PKG-INFO
+[3.879s] writing dependency_links to ../../build/robot_exam_localization/robot_exam_localization.egg-info/dependency_links.txt
+[3.882s] writing requirements to ../../build/robot_exam_localization/robot_exam_localization.egg-info/requires.txt
+[3.885s] writing top-level names to ../../build/robot_exam_localization/robot_exam_localization.egg-info/top_level.txt
+[3.885s] writing manifest file '../../build/robot_exam_localization/robot_exam_localization.egg-info/SOURCES.txt'
+[4.022s] reading manifest file '../../build/robot_exam_localization/robot_exam_localization.egg-info/SOURCES.txt'
+[4.023s] writing manifest file '../../build/robot_exam_localization/robot_exam_localization.egg-info/SOURCES.txt'
+[4.024s] running build
+[4.026s] running build_py
+[4.027s] creating /home/test/ros2_ws/build/robot_exam_localization/build
+[4.033s] creating /home/test/ros2_ws/build/robot_exam_localization/build/lib
+[4.034s] creating /home/test/ros2_ws/build/robot_exam_localization/build/lib/robot_exam_localization
+[4.034s] copying robot_exam_localization/__init__.py -> /home/test/ros2_ws/build/robot_exam_localization/build/lib/robot_exam_localization
+[4.034s] running install
+[4.051s] running install_lib
+[4.109s] creating /home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages/robot_exam_localization
+[4.110s] copying /home/test/ros2_ws/build/robot_exam_localization/build/lib/robot_exam_localization/__init__.py -> /home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages/robot_exam_localization
+[4.113s] byte-compiling /home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages/robot_exam_localization/__init__.py to __init__.cpython-312.pyc
+[4.113s] running install_data
+[4.114s] creating /home/test/ros2_ws/install/robot_exam_localization/share/ament_index
+[4.121s] creating /home/test/ros2_ws/install/robot_exam_localization/share/ament_index/resource_index
+[4.122s] creating /home/test/ros2_ws/install/robot_exam_localization/share/ament_index/resource_index/packages
+[4.122s] copying resource/robot_exam_localization -> /home/test/ros2_ws/install/robot_exam_localization/share/ament_index/resource_index/packages
+[4.122s] copying package.xml -> /home/test/ros2_ws/install/robot_exam_localization/share/robot_exam_localization
+[4.123s] running install_egg_info
+[4.166s] Copying ../../build/robot_exam_localization/robot_exam_localization.egg-info to /home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages/robot_exam_localization-0.0.0-py3.12.egg-info
+[4.169s] running install_scripts
+[4.500s] writing list of installed files to '/home/test/ros2_ws/build/robot_exam_localization/install.log'
+[4.563s] Invoked command in '/home/test/ros2_ws/src/robot_exam_localization' returned '0': PYTHONPATH=/home/test/ros2_ws/build/robot_exam_localization/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/robot_exam_localization/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_exam_localization build --build-base /home/test/ros2_ws/build/robot_exam_localization/build install --record /home/test/ros2_ws/build/robot_exam_localization/install.log --single-version-externally-managed install_data

@@ -1,0 +1,28 @@
+# ── project planning / personal notes  
+plan.txt
+Final Project.pdf 
+
+# basic gazebo maps for POC
+ext_world/corridor.world
+ext_world/empty.world
+ext_world/house.world
+ext_world/obstacles.world
+ext_world/warehouse.world
+
+# models for town building 
+models/house_type_a
+models/house_type_b
+models/house_type_c
+
+other/House 1.zip 
+other/House 2.zip]
+other/House 3.zip
+other/small_house.glb
+other/small_brick_house.glb
+other/game_ready_pharmacy_building.glb
+other/duplex_house.glb
+other/brick_home.glb
+
+other/new/
+other/japan/pharmacy.zip
+other/japan/low_poly_pharmacy.glb
