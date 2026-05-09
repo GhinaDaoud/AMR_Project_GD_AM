@@ -1,0 +1,2 @@
+[console_scripts]
+qr_detector = landmark_detector.qr_detector:main

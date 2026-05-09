@@ -1,0 +1,24 @@
+[8.707s] Invoking command in '/home/test/ros2_ws/src/landmark_detector': PYTHONPATH=/home/test/ros2_ws/build/landmark_detector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/landmark_detector build --build-base /home/test/ros2_ws/build/landmark_detector/build install --record /home/test/ros2_ws/build/landmark_detector/install.log --single-version-externally-managed install_data
+[10.193s] running egg_info
+[10.273s] writing ../../build/landmark_detector/landmark_detector.egg-info/PKG-INFO
+[10.275s] writing dependency_links to ../../build/landmark_detector/landmark_detector.egg-info/dependency_links.txt
+[10.276s] writing entry points to ../../build/landmark_detector/landmark_detector.egg-info/entry_points.txt
+[10.277s] writing requirements to ../../build/landmark_detector/landmark_detector.egg-info/requires.txt
+[10.277s] writing top-level names to ../../build/landmark_detector/landmark_detector.egg-info/top_level.txt
+[10.421s] reading manifest file '../../build/landmark_detector/landmark_detector.egg-info/SOURCES.txt'
+[10.424s] writing manifest file '../../build/landmark_detector/landmark_detector.egg-info/SOURCES.txt'
+[10.425s] running build
+[10.426s] running build_py
+[10.426s] copying landmark_detector/qr_detector.py -> /home/test/ros2_ws/build/landmark_detector/build/lib/landmark_detector
+[10.427s] running install
+[10.454s] running install_lib
+[10.526s] copying /home/test/ros2_ws/build/landmark_detector/build/lib/landmark_detector/qr_detector.py -> /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector
+[10.527s] byte-compiling /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector/qr_detector.py to qr_detector.cpython-312.pyc
+[10.532s] running install_data
+[10.533s] running install_egg_info
+[10.619s] removing '/home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector-0.0.0-py3.12.egg-info' (and everything under it)
+[10.620s] Copying ../../build/landmark_detector/landmark_detector.egg-info to /home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages/landmark_detector-0.0.0-py3.12.egg-info
+[10.623s] running install_scripts
+[11.302s] Installing qr_detector script to /home/test/ros2_ws/install/landmark_detector/lib/landmark_detector
+[11.304s] writing list of installed files to '/home/test/ros2_ws/build/landmark_detector/install.log'
+[11.391s] Invoked command in '/home/test/ros2_ws/src/landmark_detector' returned '0': PYTHONPATH=/home/test/ros2_ws/build/landmark_detector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/test/ros2_ws/install/landmark_detector/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/landmark_detector build --build-base /home/test/ros2_ws/build/landmark_detector/build install --record /home/test/ros2_ws/build/landmark_detector/install.log --single-version-externally-managed install_data
