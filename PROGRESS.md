@@ -2,7 +2,7 @@
 
 > **Course:** EECE698 — Autonomous Mobile Robots  
 > **Student:** Ghina Daoud  
-> **Platform:** ROS 2 Jazzy + Ignition Gazebo (Harmonic), running in WSL2 on Windows 11
+> **Platform:** ROS 2 Jazzy + Gazebo Harmonic, running in WSL2 on Windows 11
 
 ---
 
@@ -10,7 +10,7 @@
 
 Build a fully autonomous service robot that can:
 1. **Part 1** — Explore an unknown maze, build a 2D SLAM map, and detect/record QR-code landmarks
-2. **Part 2** — Use the saved map and landmark database to execute delivery missions between named locations
+2. **Part 2** — Navigate a dynamic environment (moving obstacles) and execute delivery missions between named locations
 3. **Part 3** — (Future) Higher-level mission logic, multi-goal planning, human interaction
 
 ---
@@ -23,11 +23,10 @@ Build a fully autonomous service robot that can:
 |-------------|--------|---------------|
 | Autonomous exploration | ✅ | `service_robot/explorer.py` — reactive EXPLORE/TURN/BACKUP state machine using `/scan` |
 | 2D SLAM mapping | ✅ | `slam_toolbox` `sync_slam_toolbox_node`, mapping mode |
-| Save occupancy grid | ✅ | `service_robot/map_auto_saver.py` — subscribes to `/map`, writes PGM+YAML directly every 60s |
-| Save SLAM posegraph | ✅ | `map_auto_saver.py` calls `/slam_toolbox/save_map` service every 60s → `.posegraph` + `.data` |
+| Save occupancy grid | ✅ | `service_robot/map_auto_saver.py` — subscribes to `/map`, writes PGM+YAML directly every 60 s |
+| Save SLAM posegraph | ✅ | `map_auto_saver.py` calls `/slam_toolbox/serialize_map` (SerializePoseGraph) every 60 s → `.posegraph` + `.data` |
 | QR code detection | ✅ | `landmark_detector/qr_detector.py` using `cv2.QRCodeDetector` |
 | Landmark database | ✅ | `src/my_local/maps/landmark_db.json` — structured JSON with map-frame coordinates |
-| Reuse in Part 2 | ✅ | Map loaded via `map_server`, landmarks loaded by `mission_planner` from JSON |
 | Teleop option | ✅ | `mode:=teleop` launch argument disables explorer; user runs `teleop_twist_keyboard` |
 
 ### Confirmed Working (from live run)
@@ -37,6 +36,63 @@ Build a fully autonomous service robot that can:
   "Zone-D: diagonal block (6, 6)": { "x": 13.171, "y": 14.553, "frame_id": "map", "detection_count": 1 }
 }
 ```
+
+---
+
+## Part 2 — Dynamic Environment (Step 3, Ghina's task)
+
+### Status: 🟡 Implemented — Pending Full Test
+
+Step 3 is the addition of two independently wandering traffic robots to the maze. Steps 1, 2, 4, 5, 6 are teammate responsibilities.
+
+| Sub-task | Status | Notes |
+|----------|--------|-------|
+| Traffic robot models (SDF) | ✅ | Two separate model folders in `worlds/` |
+| Blue box robot (traffic_robot_1) | ✅ | 0.40×0.40×0.16 m chassis, dual casters, beacon tower |
+| Green box robot (traffic_robot_2) | ✅ | 0.45×0.35×0.16 m chassis, dual casters, beacon tower |
+| Included in maze world | ✅ | `maze.sdf` includes both via `model://` URI |
+| Safe spawn positions | ✅ | robot_1 at (-7, 3), robot_2 at (-3, 5) — clear of all walls and QR landmarks |
+| Reactive wanderer node | ✅ | `service_robot/traffic_wanderer.py` — same EXPLORE/TURN/BACKUP logic as explorer, parameterized by `robot_name` |
+| ROS↔Gazebo bridges | ✅ | `traffic_bridge` node in launch — bridges `/traffic_robot_N/cmd_vel` and `/traffic_robot_N/scan` |
+| Auto-started in launch | ✅ | Two `TimerAction` at t=15 s, one instance per robot |
+| Speed tuned | ✅ | robot_1: 0.375 m/s linear, 0.825 rad/s turn; robot_2: 0.30 m/s, 0.975 rad/s |
+| Mutual LIDAR detection | ✅ | Beacon towers (0.10×0.10×0.24 m, z=0.23→0.47) give each robot a target at the LIDAR scan height (z=0.24) |
+| Mutual collision avoidance | ✅ | Beacon collision geometry + existing EXPLORE/TURN/BACKUP state machine |
+| Main robot detects traffic bots | ✅ | Main LIDAR physically sees traffic robot bodies + beacons; explorer reacts and steers around them |
+| SLAM map quality with moving bots | ⚠️ | Ghost traces expected in map where traffic robots roam — inherent SLAM limitation; resolved by Nav2 local costmap (teammate task) |
+
+### How traffic robots are wired
+
+```
+maze.sdf
+  └── <include> traffic_robot_a  →  model://traffic_robot_a
+  └── <include> traffic_robot_b  →  model://traffic_robot_b
+
+slam.launch.py
+  ├── traffic_bridge         → bridges /traffic_robot_N/cmd_vel + /traffic_robot_N/scan
+  ├── traffic_wanderer_1     → robot_name=traffic_robot_1, v=0.375, w=0.825
+  └── traffic_wanderer_2     → robot_name=traffic_robot_2, v=0.30,  w=0.975
+
+traffic_wanderer.py
+  ├── subscribes  /{robot_name}/scan
+  ├── publishes   /{robot_name}/cmd_vel
+  └── state machine: EXPLORE → TURN → BACKUP → EXPLORE
+```
+
+### Why beacon towers?
+The traffic robot LIDAR scans horizontally at z=0.24 m. The chassis top sits at z=0.23 m — a 1 cm gap means horizontal rays clear right over each other's chassis. The beacon (a 0.10×0.10×0.24 m box, z=0.23→0.47) ensures the LIDAR plane intersects the other robot's geometry. Gazebo ignores self-model collisions, so there are no self-hit issues.
+
+---
+
+## Part 2 — Remaining Steps (Teammate / Not Started)
+
+| Step | Owner | Status |
+|------|-------|--------|
+| Step 1: Nav2 navigation stack on saved map | Teammate | ⬜ Not started |
+| Step 2: Mission planner node (NavigateToPose) | Teammate | ⬜ Not started |
+| Step 4: Python GUI (tkinter) for mission selection | TBD | ⬜ Not started |
+| Step 5: Town world — add QR codes to mixed_town.world | TBD | ⬜ Not started |
+| Step 6: SLAM mapping run on town world | TBD | ⬜ Not started |
 
 ---
 
@@ -67,8 +123,8 @@ Project/src/my_local/maps/
   "_meta": { "version": "1.0", "frame_id": "map", "description": "..." },
   "landmarks": {
     "<QR text>": {
-      "x": 3.606,           ← map-frame X (metres)
-      "y": 2.002,           ← map-frame Y (metres)
+      "x": 3.606,
+      "y": 2.002,
       "frame_id": "map",
       "first_seen": "ISO-8601 UTC",
       "last_updated": "ISO-8601 UTC",
@@ -89,7 +145,7 @@ colcon build --packages-select service_robot landmark_detector robot_description
 source install/setup.bash
 ```
 
-### Launch — Autonomous mode (explorer drives)
+### Launch — Autonomous mode (explorer + traffic robots)
 ```bash
 ros2 launch robot_description slam.launch.py
 # or explicitly:
@@ -108,18 +164,20 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ### Startup Sequence
 | Time | Event |
 |------|-------|
-| 0s | Gazebo, bridges, robot_state_publisher start |
-| 5s | Robot spawns at (-7, -7) in the maze |
-| 8s | SLAM toolbox starts mapping |
-| 10s | RViz opens (Map + RobotModel + LaserScan pre-configured) |
-| 12s | Explorer starts driving / QR detector starts watching camera |
-| 70s | `map_auto_saver` starts — first save fires immediately |
-| every 60s | maze_map.pgm + .yaml + .posegraph + .data all written to maps/ |
+| 0 s | Gazebo, all bridges, robot_state_publisher start |
+| 5 s | Main robot spawns at (-7, -7); traffic robots already in world at (-7,3) and (-3,5) |
+| 8 s | SLAM toolbox starts mapping |
+| 10 s | RViz opens (Map + RobotModel + LaserScan) |
+| 12 s | Explorer starts driving / QR detector starts watching camera |
+| 15 s | traffic_wanderer_1 and traffic_wanderer_2 start — both robots begin wandering |
+| 70 s | `map_auto_saver` starts — first save fires immediately |
+| every 60 s | maze_map.pgm + .yaml + .posegraph + .data all written to maps/ |
 
-### Manual Map Save (anytime while running)
+### Debug traffic robots
 ```bash
-ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap \
-  "{name: {data: '/mnt/c/Users/user/OneDrive - American University of Beirut/Courses/AMR-EECE698/Project/src/my_local/maps/maze_map'}}"
+ros2 topic echo /traffic_robot_1/scan --no-arr   # confirm LIDAR data
+ros2 topic echo /traffic_robot_1/cmd_vel          # confirm wanderer is sending commands
+ros2 topic echo /traffic_robot_2/cmd_vel
 ```
 
 ---
@@ -128,29 +186,36 @@ ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap \
 
 ```
 src/
-  robot_description/        ← CMake package — robot URDF, Gazebo worlds, launch files
+  robot_description/        ← CMake package — URDF, Gazebo worlds, launch files
     urdf/
-      service_robot.urdf.xacro    ← robot geometry (chassis + rear drive wheels + front caster)
+      service_robot.urdf.xacro    ← robot geometry (chassis + drive wheels + caster)
       gazebo_plugins.xacro        ← DiffDrive, sensors, caster friction
     worlds/
-      maze.sdf                    ← 20×20m maze with 4 QR landmark boxes
-      qr_textures/                ← PNG QR code images for each landmark
+      maze.sdf                    ← 20×20 m maze with 4 QR landmarks + 2 traffic robots
+      qr_textures/                ← PNG QR images for each landmark
+      traffic_robot_a/            ← Blue box traffic robot model
+        model.sdf
+        model.config
+      traffic_robot_b/            ← Green box traffic robot model
+        model.sdf
+        model.config
     config/
-      slam_config.yaml            ← slam_toolbox parameters
-      slam.rviz                   ← pre-configured RViz (Map, RobotModel, LaserScan)
+      slam_config.yaml            ← slam_toolbox params (use_map_saver: false)
+      slam.rviz                   ← pre-configured RViz
     launch/
       slam.launch.py              ← main launch file (mode:=auto|teleop)
 
   service_robot/            ← Python package — robot behaviour
     service_robot/
       explorer.py                 ← reactive autonomous explorer (EXPLORE/TURN/BACKUP)
-      map_auto_saver.py           ← periodic map saver (PGM+YAML from /map, posegraph via slam_toolbox service)
+      map_auto_saver.py           ← periodic map saver (PGM+YAML + posegraph via slam_toolbox)
+      traffic_wanderer.py         ← parameterized wanderer for traffic robots
 
   landmark_detector/        ← Python package — vision
     landmark_detector/
       qr_detector.py              ← QR detection, bounding-box overlay, DB save
 
-  mission_planner/          ← Python package — Part 2 (not yet implemented)
+  mission_planner/          ← Python package — Part 2 Step 2 (not yet implemented)
 
   my_local/                 ← stub package used for maps/ path resolution
     maps/                   ← ALL output data lands here
@@ -158,25 +223,40 @@ src/
 
 ---
 
-## Robot Design
+## Robot Designs
 
-Based on the Gazebo tutorial differential-drive car proportions.
+### Main Service Robot
+| Property | Value |
+|----------|-------|
+| Chassis | 0.45 × 0.30 × 0.15 m, blue box |
+| Drive wheels | radius 0.07 m, width 0.05 m — rear (x = −0.12 m) |
+| Front caster | sphere radius 0.035 m |
+| Wheel separation | 0.35 m |
+| LIDAR | 360° GPU lidar, 10 Hz, 0.15–12 m range |
+| Camera | 640×480, 60° HFOV, 10 Hz |
+| IMU | 50 Hz |
 
-| Property | Value | Notes |
-|----------|-------|-------|
-| Chassis | 0.45 × 0.30 × 0.15 m | Blue box |
-| Drive wheels | radius 0.07 m, width 0.05 m | Dark gray, at **rear** (x = −0.12 m) |
-| Front caster | sphere radius 0.035 m | Green, at front (x = +0.165 m) |
-| Wheel separation | 0.35 m | Matches DiffDrive plugin exactly |
-| LIDAR | 360° GPU lidar, 10 Hz, 0.15–12 m | On top of chassis |
-| Camera | 640×480, 60° HFOV, 10 Hz | Front face, horizontal |
-| IMU | 50 Hz | At chassis centre |
+### Traffic Robot A (Blue)
+| Property | Value |
+|----------|-------|
+| Chassis | 0.40 × 0.40 × 0.16 m, bright blue |
+| Beacon tower | 0.10 × 0.10 × 0.24 m, darker blue — spans z=0.23→0.47 for LIDAR detection |
+| Drive wheels | radius 0.07 m — at y = ±0.22 m |
+| Casters | front (x=+0.15) + rear (x=−0.15) — flat, stable stance |
+| Wheel separation | 0.44 m |
+| LIDAR | 180 samples, 10 Hz, 0.15–8 m, scans at z=0.24 m |
+| Speed | 0.375 m/s linear, 0.825 rad/s turn |
 
-**Key URDF fixes applied:**
-- `base_footprint_joint z = wheel_radius + base_height/2 = 0.145 m` — prevents chassis clipping floor
-- Caster z = `-(base_height/2 + caster_radius) = -0.11 m` — sphere touches ground exactly
-- Caster `mu1=mu2=0` in Gazebo — slides freely without fighting drive wheels
-- Inertia tensors computed from geometry formulas — no more "invalid inertia" Gazebo errors
+### Traffic Robot B (Green)
+| Property | Value |
+|----------|-------|
+| Chassis | 0.45 × 0.35 × 0.16 m, bright green |
+| Beacon tower | 0.10 × 0.10 × 0.24 m, darker green — spans z=0.23→0.47 for LIDAR detection |
+| Drive wheels | radius 0.07 m — at y = ±0.195 m |
+| Casters | front (x=+0.17) + rear (x=−0.17) — flat, stable stance |
+| Wheel separation | 0.39 m |
+| LIDAR | 180 samples, 10 Hz, 0.15–8 m, scans at z=0.24 m |
+| Speed | 0.30 m/s linear, 0.975 rad/s turn |
 
 ---
 
@@ -187,45 +267,26 @@ Based on the Gazebo tutorial differential-drive car proportions.
 | Robot invisible in RViz | RobotModel topic missing `Durability: Transient Local` QoS | Added to `slam.rviz` config |
 | Robot clips through floor | `base_footprint_joint z = wheel_radius` (too low) | Changed to `wheel_radius + base_height/2` |
 | Caster floats above ground | Caster z offset too shallow | Fixed to `-(base_height/2 + caster_radius)` |
-| Odometry drift | `wheel_separation = 0.38` but actual geometry = 0.34/0.35 | Corrected in DiffDrive plugin |
+| Odometry drift | `wheel_separation = 0.38` but actual geometry = 0.35 | Corrected in DiffDrive plugin |
 | Wheel inertia error | `ixx + iyy < izz` violated triangle inequality | Reverted to physically valid values |
-| Map not saving | `map_saver_server` was started but never called — nothing triggered the save | Replaced with `map_auto_saver.py` node that saves directly from `/map` topic every 60s |
-| Posegraph save result=255 | `use_map_saver: true` made slam_toolbox try to call `map_saver_cli` internally, which failed | Set `use_map_saver: false` — posegraph-only save now succeeds |
-| pyzbar crash | `pyzbar` not installed in WSL environment | Replaced with `cv2.QRCodeDetector` |
-| QR window closing on detection | Unhandled exception in callback skipped `cv2.imshow()` | Wrapped all processing in `try/except`; imshow always runs |
-| QR textures not showing | `maze.sdf` hardcoded `/home/test/` path | Launch file patches SDF with correct path at runtime |
-| Landmark path wrong | `~/AMR_project/` symlink assumed (doesn't exist) | Use `get_package_share_directory` walk-up for real path |
-| Map save `result=255` | `map_saver_server` in unconfigured lifecycle state | Lifecycle manager fix (see above) |
-| RViz global status TF error | Missing `/joint_states` bridge for wheel joints | Added `joint_state_bridge` node |
-| SLAM drops scans | `transform_timeout = 0.2s` too short | Increased to `0.5s` |
-| Explorer not in package | `setup.py` had no entry points | Added `explorer = service_robot.explorer:main` |
-| QR codes too high for camera | QR faces centered at 0.75–1 m, camera at 0.145 m | Repositioned to world z ≈ 0.35 m |
-| QR codes too large | Full face size (1.4–2.9 m) | Halved to 0.7 m × 0.7 m (or 1.45 × 0.7) |
-
----
-
-## Part 2 — Next Steps (Not Started)
-
-`src/mission_planner/` exists as an empty stub. The mission planner needs to:
-
-1. **Load saved data**
-   - Map: `ros2 run nav2_map_server map_server --ros-args -p map_yaml_filename:=maze_map.yaml`
-   - Landmarks: read `landmark_db.json` → build a name→(x,y) lookup table
-
-2. **Navigate to landmarks**
-   - Use Nav2 action client (`NavigateToPose`) with goals from the landmark DB
-   - Requires: `nav2_bringup` (AMCL localisation + planners) loaded on top of the saved map
-
-3. **Mission logic**
-   - Accept a goal landmark name (e.g. `"Zone-C: pillar B (0, -4)"`)
-   - Look up its (x, y) from the DB
-   - Send a `NavigateToPose` action goal
-   - Report success/failure
-
-4. **Entry point** to add to `mission_planner/setup.py`:
-   ```python
-   'mission_planner = mission_planner.mission_node:main'
-   ```
+| Map not saving | `map_saver_server` started but never triggered | Replaced with `map_auto_saver.py` that saves directly from `/map` topic every 60 s |
+| Posegraph save result=255 | `use_map_saver: true` made slam_toolbox call `map_saver_cli` internally, which fails on paths with spaces (OneDrive path) | Set `use_map_saver: false`; use `/slam_toolbox/serialize_map` (SerializePoseGraph) directly |
+| SLAM startup "Failed to open file" | `map_file_name` param told SLAM to load a non-existent file | Removed `map_file_name` from launch |
+| pyzbar crash | `pyzbar` not installed in WSL | Replaced with `cv2.QRCodeDetector` |
+| QR window closing on detection | Unhandled exception skipped `cv2.imshow()` | Wrapped in `try/except`; imshow always runs |
+| QR textures not showing | `maze.sdf` hardcoded `/home/test/` path | Launch file patches SDF with correct path at runtime using `tempfile` |
+| Landmark path wrong | `~/AMR_project/` symlink assumed | Use `get_package_share_directory` walk-up for real workspace path |
+| RViz TF error | Missing `/joint_states` bridge for wheel joints | Added `joint_state_bridge` node |
+| SLAM drops scans | `transform_timeout = 0.2 s` too short | Increased to `0.5 s` |
+| Explorer not found | `setup.py` had no entry points | Added all executables to `console_scripts` |
+| QR codes too high for camera | QR faces at 0.75–1 m, camera at 0.145 m | Repositioned to world z ≈ 0.35 m |
+| QR codes too large | Full face 1.4–2.9 m wide | Halved to 0.7 m × 0.7 m |
+| Gazebo entirely black window | `<render_engine>ogre2</render_engine>` fails in WSL2 | Changed to `<render_engine>ogre</render_engine>` in `maze.sdf` |
+| traffic_robot_1 stuck / not moving | Spawned at (3, 0) which is on `h_div_left` wall (y=0 corridor wall) | Moved spawn to (-7, 3) — confirmed clear of all walls |
+| traffic_robot_2 invisible | Spawned at (0, 3) which is inside `pillar_a` QR landmark (1.5×1.5×2 m box) | Moved spawn to (-3, 5) — confirmed clear |
+| Traffic robots clip through each other | Chassis top at z=0.23, LIDAR at z=0.24 — rays clear over each other | Added beacon tower to each robot; collision spans z=0.23→0.47 so LIDAR sees it |
+| traffic_robot_b chassis rocks/tilts | Only one front caster — no rear support under deceleration | Added rear caster to both traffic robots |
+| traffic_robot_a cylinder design | Cylinder body visually unclear and physically awkward | Replaced with flat box chassis matching overall robot style |
 
 ---
 
@@ -236,6 +297,7 @@ Based on the Gazebo tutorial differential-drive car proportions.
 | OS | Windows 11, WSL2 (Ubuntu) |
 | ROS2 | Jazzy |
 | Gazebo | Harmonic (gz-sim) |
+| Render engine | `ogre` (ogre2 causes black screen in WSL2) |
 | Workspace root (WSL) | `/mnt/c/Users/user/OneDrive - American University of Beirut/Courses/AMR-EECE698/Project` |
 | Maps output | `src/my_local/maps/` |
-| Pylance warning on `ament_index_python` | **Harmless** — Windows Python has no ROS2; works correctly in WSL |
+| Pylance warning on `ament_index_python` | Harmless — Windows Python has no ROS2; works correctly in WSL |

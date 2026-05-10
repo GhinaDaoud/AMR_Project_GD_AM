@@ -13,9 +13,14 @@ ext_world/warehouse.world
 models/house_type_a
 models/house_type_b
 models/house_type_c
+models/kiosk
+models/mini_mart
+models/firefighting_center
+models/obstacle_block 
+models/restaurant 
 
 other/House 1.zip 
-other/House 2.zip]
+other/House 2.zip
 other/House 3.zip
 other/small_house.glb
 other/small_brick_house.glb
@@ -25,6 +30,7 @@ other/brick_home.glb
 
 other/new/
 other/japan/pharmacy.zip
+other/japan/pharmacy/
 other/japan/low_poly_pharmacy.glb
 
 build/
@@ -44,3 +50,4 @@ src.zip
 
 # town launch (deferred to Part 2)
 src\my_local\maps
+other/japan/new

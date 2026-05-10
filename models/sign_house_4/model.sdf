@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="sign_house_4">
+    <static>true</static>
+    <link name="link">
+
+      <!-- wooden pole: 0.45 m tall, centre Z=0.225 -->
+      <visual name="pole">
+        <pose>0 0 0.225 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.45</size></box></geometry>
+        <material>
+          <ambient>0.35 0.22 0.10 1</ambient>
+          <diffuse>0.35 0.22 0.10 1</diffuse>
+        </material>
+      </visual>
+      <collision name="pole_col">
+        <pose>0 0 0.225 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.45</size></box></geometry>
+      </collision>
+
+      <!-- QR board body: white backing (0.52 x 0.52 m), centre Z=0.58 -->
+      <visual name="board_body">
+        <pose>0 0 0.58 0 0 0</pose>
+        <geometry><box><size>0.52 0.02 0.52</size></box></geometry>
+        <material>
+          <ambient>0.95 0.95 0.95 1</ambient>
+          <diffuse>0.95 0.95 0.95 1</diffuse>
+        </material>
+      </visual>
+      <!-- QR face: ultra-thin overlay on local -Y side only.
+           The white board body hides the +Y (back) face of this overlay,
+           so the QR is effectively one-sided (front face only). -->
+      <visual name="board_qr">
+        <pose>0 -0.011 0.58 0 0 0</pose>
+        <geometry><box><size>0.50 0.001 0.50</size></box></geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://sign_house_4/materials/textures/qr.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <collision name="board_col">
+        <pose>0 0 0.58 0 0 0</pose>
+        <geometry><box><size>0.52 0.02 0.52</size></box></geometry>
+      </collision>
+
+    </link>
+  </model>
+</sdf>

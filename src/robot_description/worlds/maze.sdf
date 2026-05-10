@@ -389,5 +389,21 @@
         <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
     </link></model>
 
+
+    <!-- ── traffic robots ──────────────────────────────────────────── -->
+    <!-- Orange cylinder wanderer — upper-left corridor, clear of all walls -->
+    <include>
+      <uri>model://traffic_robot_a</uri>
+      <name>traffic_robot_1</name>
+      <pose>-7 3 0 0 0 0</pose>
+    </include>
+
+    <!-- Red flat-box wanderer — upper-centre area, clear of all walls -->
+    <include>
+      <uri>model://traffic_robot_b</uri>
+      <name>traffic_robot_2</name>
+      <pose>-3 5 0 0 0 0</pose>
+    </include>
+
   </world>
 </sdf>

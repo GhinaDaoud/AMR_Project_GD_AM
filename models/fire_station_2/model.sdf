@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+  fire_station_2
+  GLB bounds (mesh space): X=[-17.3, 15.5]  Y=[-8.5, 16.0]  Z=[0, 9.6]  — GLTF Y-up, no root rotation
+  Correction: roll=+π/2 rotates GLTF-Y (height) → Gazebo-Z (up).
+              tz=0: floor is at GLTF Y=0, so no lift needed (Y<0 portion sinks below ground, invisible).
+  At scale 0.03: footprint ≈ 1.0 x 0.3 m, height ≈ 0.5 m
+-->
+<sdf version="1.6">
+  <model name="fire_station_2">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 0.25 0 0 0</pose>
+        <geometry><box><size>1.0 0.3 0.5</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://fire_station_2/meshes/model_fixed.glb</uri>
+            <scale>0.003 0.003 0.003</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

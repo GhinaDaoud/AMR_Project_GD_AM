@@ -1,28 +1,28 @@
 <?xml version="1.0" ?>
+<!--
+  supermarket — uses 7--11.glb
+  GLB bounds: X=[-43.3,673.2] Y=[-43.3,515.7] Z=[-7.9,177.2] — GLTF Y-up, units≈cm/game-units
+  No material conversion needed (KHR_materials_clearcoat is supported).
+  Correction: roll=+π/2 (Y-up → Z-up). tz=0.65 lifts floor to Z=0 (min_Y*0.015=-0.65).
+  At scale 0.015: width≈10.7m, depth≈2.8m, height≈8.4m (tall — reduce scale if needed).
+-->
 <sdf version="1.6">
   <model name="supermarket">
     <static>true</static>
     <link name="link">
-      <pose>0 0 0 1.5708 0 3.14159</pose>
-
       <collision name="collision">
-        <pose>0 0 3.5 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>11 8 7</size>
-          </box>
-        </geometry>
+        <pose>4.7 0 4.2 0 0 0</pose>
+        <geometry><box><size>10.8 2.8 8.4</size></box></geometry>
       </collision>
-
-      <visual name="mesh">
+      <visual name="visual">
+        <pose>0 0 0.65 1.5708 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://supermarket/meshes/model.glb</uri>
-            <scale>0.7 0.7 0.7</scale>
+            <scale>0.015 0.015 0.015</scale>
           </mesh>
         </geometry>
       </visual>
-
     </link>
   </model>
 </sdf>

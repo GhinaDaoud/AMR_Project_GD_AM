@@ -184,6 +184,56 @@ def generate_launch_description():
         ]
     )
 
+    # Bridge cmd_vel + scan for both traffic robots
+    traffic_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='traffic_bridge',
+        arguments=[
+            '/traffic_robot_1/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/traffic_robot_1/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/traffic_robot_2/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/traffic_robot_2/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+        ],
+        output='screen'
+    )
+
+    # Wanderer for traffic_robot_1 (orange cylinder) — starts at t=15s
+    traffic_wanderer_1 = TimerAction(
+        period=15.0,
+        actions=[
+            Node(
+                package='service_robot',
+                executable='traffic_wanderer',
+                name='traffic_wanderer_1',
+                output='screen',
+                parameters=[{
+                    'robot_name': 'traffic_robot_1',
+                    'linear_speed': 0.375,
+                    'turn_speed': 0.825,
+                }]
+            )
+        ]
+    )
+
+    # Wanderer for traffic_robot_2 (red box) — starts at t=15s, different speeds
+    traffic_wanderer_2 = TimerAction(
+        period=15.0,
+        actions=[
+            Node(
+                package='service_robot',
+                executable='traffic_wanderer',
+                name='traffic_wanderer_2',
+                output='screen',
+                parameters=[{
+                    'robot_name': 'traffic_robot_2',
+                    'linear_speed': 0.30,
+                    'turn_speed': 0.975,
+                }]
+            )
+        ]
+    )
+
     # Explorer only in 'auto' mode
     explorer = TimerAction(
         period=12.0,
@@ -249,9 +299,12 @@ def generate_launch_description():
         bridge,
         tf_bridge,
         joint_state_bridge,
+        traffic_bridge,
         slam,
         explorer,
         qr_detector,
+        traffic_wanderer_1,
+        traffic_wanderer_2,
         map_auto_saver,
         rviz,
     ])

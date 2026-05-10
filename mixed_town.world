@@ -1,27 +1,17 @@
 <?xml version="1.0" ?>
 <!--
-  Mixed Town World  (v2 — redesigned from image annotations)
-  ===========================================================
-  Changes from v1:
-  · Entire navigable surface is uniform grey (path planning on full area)
-  · Octagonal border (diagonal corner cuts, no blue-area square corners)
-  · Plaza reduced to 6x6m, buildings pulled closer (less empty space)
-  · All buildings scaled up to 6x6m (houses) / 11x8m (supermarket) etc.
-  · PINK zones → gardens (green grass + trees + benches)
-  · YELLOW zone → kiosk/utility pavilion
-  · One concrete obstacle block for navigation challenge
-  · No building overlaps, verified coordinates
+  Mixed Town World  (v2.1)
+  · East wall:  X=22 → X=20  (2 m inward)
+  · South wall: Y=-22 → Y=-18 (4 m inward)
+  · North / West walls unchanged (Y=22, X=-22)
+  · 4 trees added at docking-station corners; rest redistributed to empty areas
 
   Axes: X+ = East, Y+ = North.  Origin = docking station center.
-
-  LAUNCH:  bash launch_gazebo.sh   (sets GZ_SIM_RESOURCE_PATH / GAZEBO_MODEL_PATH)
+  LAUNCH:  bash launch_gazebo.sh
 -->
 <sdf version="1.6">
   <world name="mixed_town_v2">
 
-    <!-- ============================================================ -->
-    <!--  PHYSICS & SCENE                                             -->
-    <!-- ============================================================ -->
     <gravity>0 0 -9.8</gravity>
     <physics type="ode">
       <real_time_update_rate>1000.0</real_time_update_rate>
@@ -31,404 +21,157 @@
     <scene>
       <ambient>0.70 0.70 0.70 1</ambient>
       <background>0.55 0.82 0.94 1</background>
-      <shadows>true</shadows>
+      <shadows>false</shadows>
     </scene>
     <include><uri>model://sun</uri></include>
 
-    <!-- ============================================================ -->
-    <!--  GREY GROUND SURFACE                                         -->
-    <!--  Replaces default ground_plane so the ENTIRE area is grey.   -->
-    <!--  Robot path planning works on the full surface, not just     -->
-    <!--  the + road markings.                                        -->
-    <!-- ============================================================ -->
+    <!-- WHITE GROUND WITH GRID  40 x 40 m, centred at (2, 2) — X[-18,+22] Y[-18,+22] -->
     <model name="grey_ground">
       <static>true</static>
-      <pose>0 0 -0.05 0 0 0</pose>
+      <pose>2 2 -0.05 0 0 0</pose>
       <link name="link">
         <collision name="col">
-          <geometry><box><size>60 60 0.1</size></box></geometry>
+          <geometry><box><size>40 40 0.1</size></box></geometry>
         </collision>
         <visual name="vis">
-          <geometry><box><size>60 60 0.1</size></box></geometry>
+          <geometry><box><size>40 40 0.1</size></box></geometry>
           <material>
-            <ambient>0.60 0.60 0.60 1</ambient>
-            <diffuse>0.60 0.60 0.60 1</diffuse>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
           </material>
         </visual>
       </link>
     </model>
 
     <!-- ============================================================ -->
-    <!--  ROAD MARKINGS (slightly darker grey for visual guidance)    -->
-    <!--  These are cosmetic — the robot can still navigate the full  -->
-    <!--  grey ground; road marks just show primary routes.          -->
+    <!--  BORDER WALLS  X[-18,+20]  Y[-18,+22]                      -->
+    <!--  West moved from -22 → -18 (flush with pharmacy/firestation) -->
+    <!--  N/S walls span 36 m (centre X=2)                           -->
+    <!--  E/W walls span 40 m (centre Y=2)                           -->
     <!-- ============================================================ -->
-
-    <!-- Main Street: N-S, 4m wide -->
-    <model name="road_main">
-      <static>true</static><pose>0 0 0.006 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>4 48 0.006</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>4 48 0.006</size></box></geometry>
-          <material><ambient>0.42 0.42 0.42 1</ambient><diffuse>0.42 0.42 0.42 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- East Street: from plaza (X=3) to commercial (X=20), 3m wide -->
-    <model name="road_east">
-      <static>true</static><pose>11.5 0 0.006 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>17 3 0.006</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>17 3 0.006</size></box></geometry>
-          <material><ambient>0.42 0.42 0.42 1</ambient><diffuse>0.42 0.42 0.42 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- West Street: from services (X=-20) to plaza (X=-3), 3m wide -->
-    <model name="road_west">
-      <static>true</static><pose>-11.5 0 0.006 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>17 3 0.006</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>17 3 0.006</size></box></geometry>
-          <material><ambient>0.42 0.42 0.42 1</ambient><diffuse>0.42 0.42 0.42 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- North alley: 1.5m between north houses (gravel tone) -->
-    <model name="road_north_alley">
-      <static>true</static><pose>0 13 0.006 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>1.5 8 0.006</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>1.5 8 0.006</size></box></geometry>
-          <material><ambient>0.50 0.46 0.40 1</ambient><diffuse>0.50 0.46 0.40 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- South access spur: east of main street, leads to east south cluster -->
-    <model name="road_south_spur">
-      <static>true</static><pose>3.5 -9.5 0.006 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>3 9 0.006</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>3 9 0.006</size></box></geometry>
-          <material><ambient>0.50 0.46 0.40 1</ambient><diffuse>0.50 0.46 0.40 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- ============================================================ -->
-    <!--  OCTAGONAL BORDER WALLS                                      -->
-    <!--  (replaces square — diagonal cuts at all 4 corners)          -->
-    <!--  Blue corner zones from the image are outside these walls.  -->
-    <!-- ============================================================ -->
-
-    <!-- Straight walls (4) -->
     <model name="wall_north">
-      <static>true</static><pose>0 22 1 0 0 0</pose>
+      <static>true</static><pose>1 22 1 0 0 0</pose>
       <link name="link">
-        <collision name="col"><geometry><box><size>30 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>30 0.4 2</size></box></geometry>
-          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="wall_east">
-      <static>true</static><pose>22 0 1 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>0.4 30 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>0.4 30 2</size></box></geometry>
+        <collision name="col"><geometry><box><size>38.4 0.4 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>38.4 0.4 2</size></box></geometry>
           <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
         </visual>
       </link>
     </model>
     <model name="wall_south">
-      <static>true</static><pose>0 -22 1 0 0 0</pose>
+      <static>true</static><pose>1 -18 1 0 0 0</pose>
       <link name="link">
-        <collision name="col"><geometry><box><size>30 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>30 0.4 2</size></box></geometry>
+        <collision name="col"><geometry><box><size>38.4 0.4 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>38.4 0.4 2</size></box></geometry>
+          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_east">
+      <static>true</static><pose>20 2 1 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 40.4 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 40.4 2</size></box></geometry>
           <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
         </visual>
       </link>
     </model>
     <model name="wall_west">
-      <static>true</static><pose>-22 0 1 0 0 0</pose>
+      <static>true</static><pose>-18 2 1 0 0 0</pose>
       <link name="link">
-        <collision name="col"><geometry><box><size>0.4 30 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>0.4 30 2</size></box></geometry>
+        <collision name="col"><geometry><box><size>0.4 40.4 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.4 40.4 2</size></box></geometry>
           <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
         </visual>
       </link>
     </model>
 
-    <!-- Diagonal corner walls (4) — each ~10m at 45° -->
-    <model name="wall_ne">
-      <static>true</static><pose>18.5 18.5 1 0 0 -0.7854</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>10.0 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>10.0 0.4 2</size></box></geometry>
-          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="wall_se">
-      <static>true</static><pose>18.5 -18.5 1 0 0 0.7854</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>10.0 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>10.0 0.4 2</size></box></geometry>
-          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="wall_sw">
-      <static>true</static><pose>-18.5 -18.5 1 0 0 -0.7854</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>10.0 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>10.0 0.4 2</size></box></geometry>
-          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="wall_nw">
-      <static>true</static><pose>-18.5 18.5 1 0 0 0.7854</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>10.0 0.4 2</size></box></geometry></collision>
-        <visual name="vis"><geometry><box><size>10.0 0.4 2</size></box></geometry>
-          <material><ambient>0.75 0.70 0.60 1</ambient><diffuse>0.75 0.70 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- ============================================================ -->
-    <!--  CENTRAL PLAZA  (reduced to 6x6m — "pistachio square")      -->
-    <!-- ============================================================ -->
-
-    <model name="central_plaza">
-      <static>true</static><pose>0 0 0.01 0 0 0</pose>
-      <link name="link">
-        <collision name="col"><geometry><box><size>6 6 0.02</size></box></geometry></collision>
-        <visual name="vis">
-          <geometry><box><size>6 6 0.02</size></box></geometry>
-          <material>
-            <!-- Brick tile pattern; falls back to amber if script unavailable -->
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Bricks</name>
-            </script>
-            <ambient>0.80 0.65 0.45 1</ambient>
-            <diffuse>0.80 0.65 0.45 1</diffuse>
-          </material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- Docking station: 3x3m green platform at plaza center -->
+    <!-- DOCKING STATION -->
     <model name="docking_station">
-      <static>true</static><pose>0 0 0.055 0 0 0</pose>
+      <static>true</static><pose>0 0 0.0005 0 0 0</pose>
       <link name="link">
-        <collision name="col"><geometry><box><size>3 3 0.09</size></box></geometry></collision>
         <visual name="vis">
-          <geometry><box><size>3 3 0.09</size></box></geometry>
+          <geometry><box><size>3.2 3.2 0.001</size></box></geometry>
           <material>
-            <ambient>0.04 0.72 0.04 1</ambient>
-            <diffuse>0.04 0.72 0.04 1</diffuse>
-            <specular>0.3 0.3 0.3 1</specular>
+            <ambient>0.50 0.50 0.50 1</ambient>
+            <diffuse>0.50 0.50 0.50 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
-
-    <!-- White cross marker on docking pad -->
     <model name="dock_cross_h">
-      <static>true</static><pose>0 0 0.102 0 0 0</pose>
+      <static>true</static><pose>0 0 0.002 0 0 0</pose>
       <link name="link"><visual name="v">
-        <geometry><box><size>2.6 0.14 0.01</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+        <geometry><box><size>2.6 0.12 0.001</size></box></geometry>
+        <material><ambient>0.92 0.92 0.92 1</ambient><diffuse>0.92 0.92 0.92 1</diffuse></material>
       </visual></link>
     </model>
     <model name="dock_cross_v">
-      <static>true</static><pose>0 0 0.102 0 0 0</pose>
+      <static>true</static><pose>0 0 0.002 0 0 0</pose>
       <link name="link"><visual name="v">
-        <geometry><box><size>0.14 2.6 0.01</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+        <geometry><box><size>0.12 2.6 0.001</size></box></geometry>
+        <material><ambient>0.92 0.92 0.92 1</ambient><diffuse>0.92 0.92 0.92 1</diffuse></material>
       </visual></link>
     </model>
 
-    <!-- ============================================================ -->
-    <!--  EAST – COMMERCIAL DISTRICT                                  -->
-    <!--  Both buildings flank the east street (Y=0).                -->
-    <!--  Supermarket (north side): front wall at Y≈2               -->
-    <!--  Restaurant  (south side): front wall at Y≈-2              -->
-    <!--                                                              -->
-    <!--  Verified no overlaps:                                       -->
-    <!--    Supermarket: X=[8.5,19.5], Y=[2,10]                      -->
-    <!--    Restaurant:  X=[10.5,17.5], Y=[-8,-2]                    -->
-    <!-- ============================================================ -->
-
+    <!-- EAST – COMMERCIAL -->
     <include>
       <name>supermarket</name>
       <uri>model://supermarket</uri>
-      <!-- 7-11 GLB; yaw=π+85 = 170 then use in rad ~2.967 -->
-      <pose>20 -16 0 0 0 -1.05</pose>
+      <pose>8 3 0 0 0 0</pose>
     </include>
-
     <include>
       <name>restaurant</name>
       <uri>model://kyoto_restaurant</uri>
-      <!-- yaw=π: front (-Y) reflected to face north toward east street -->
       <pose>14 -3 0 0 0 3.14159</pose>
     </include>
 
-    <!-- ============================================================ -->
-    <!--  WEST – SERVICE AREA                                         -->
-    <!--  Pharmacy     (north of west street): front wall at Y≈2.5  -->
-    <!--  Firefighting (south of west street): front wall at Y≈-2.5 -->
-    <!--                                                              -->
-    <!--  Pharmacy:     X=[-15.5,-8.5], Y=[2.5,9.5]                 -->
-    <!--  Firefighting: X=[-15.5,-8.5], Y=[-9.5,-2.5]               -->
-    <!-- ============================================================ -->
-
+    <!-- WEST – SERVICE -->
     <include>
       <name>pharmacy</name>
       <uri>model://pharmacy</uri>
       <pose>-12 6 0 0 0 0</pose>
     </include>
-
     <include>
-      <name>firefighting_center</name>
-      <uri>model://firefighting_center</uri>
+      <name>fire_station_2</name>
+      <uri>model://fire_station_2</uri>
       <pose>-12 -6 0 0 0 0</pose>
     </include>
 
-    <!-- ============================================================ -->
-    <!--  NORTH RESIDENTIAL  (flanking main street — v1.2 linear)    -->
-    <!--  house_north_1: X=[-9,-3], Y=[9,15]                        -->
-    <!--  house_north_2: X=[3,9],   Y=[9,15]                        -->
-    <!-- ============================================================ -->
-
+    <!-- NORTH RESIDENTIAL -->
     <include>
       <name>house_north_1</name>
       <uri>model://jap_home_1</uri>
-      <!-- West of main street, facing its pair -->
       <pose>-6 13 0 0 0 0</pose>
     </include>
-
     <include>
       <name>house_north_2</name>
       <uri>model://jap_home_1</uri>
-      <!-- East of main street, facing its pair -->
       <pose>-6 19 0 0 0 0</pose>
     </include>
 
-    <!-- ============================================================ -->
-    <!--  SOUTH RESIDENTIAL  (spread layout)                         -->
-    <!--  house_south_1: west cluster  X=[-10,-4], Y=[-15,-9]       -->
-    <!--  house_south_3: east near     X=[3,9],    Y=[-14,-8]       -->
-    <!--  house_south_2: east far      X=[3,9],    Y=[-21,-15]      -->
-    <!--  (1m gap between south_3 and south_2)                       -->
-    <!-- ============================================================ -->
-
+    <!-- SOUTH RESIDENTIAL -->
     <include>
       <name>house_south_1</name>
       <uri>model://jap_home_3</uri>
-      <!-- North cluster, facing the pair -->
       <pose>1 18 0 0 0 3.14159</pose>
     </include>
-
     <include>
       <name>house_south_2</name>
       <uri>model://jap_home_2</uri>
-      <!-- South cluster (far), facing its pair -->
-      <pose>-6.0 -14 0 0 0 0</pose>
+      <pose>-6 -14 0 0 0 0</pose>
     </include>
-
     <include>
       <name>house_south_3</name>
       <uri>model://jap_home_2</uri>
-      <!-- South cluster (near), facing its pair -->
       <pose>6 -14 0 0 0 3.14159</pose>
     </include>
 
-    <!-- ============================================================ -->
-    <!--  YELLOW ZONE — KIOSK / UTILITY PAVILION                     -->
-    <!--  (non-house landmark in the SE area between restaurant       -->
-    <!--   and south residential cluster)                             -->
-    <!--  Position: X=[11,15], Y=[-13,-9] — verified no overlaps     -->
-    <!-- ============================================================ -->
-
-    <include>
-      <name>info_kiosk</name>
-      <uri>model://kiosk</uri>
-      <pose>13 -11 0 0 0 0</pose>
-    </include>
-
-    <!-- ============================================================ -->
-    <!--  OBSTACLE BARRIER  (v1.2 navigation challenge)               -->
-    <!--  Placed in SW corridor between services south and            -->
-    <!--  west south cluster — forces route decision.                 -->
-    <!--  X=[-11.5,-8.5], Y=[-8.5,-5.5] — verified no overlaps       -->
-    <!-- ============================================================ -->
-
-    <include>
-      <name>obstacle_A</name>
-      <uri>model://obstacle_block</uri>
-      <pose>-10 -7 0 0 0 0</pose>
-    </include>
-
-    <!-- ============================================================ -->
-    <!--  PINK ZONE — GARDENS                                         -->
-    <!--  Grass patches + trees + benches in the two pink areas.      -->
-    <!--  Garden NW: between pharmacy E side and house_north_1 W      -->
-    <!--  Garden SW: between firefighting S and south approach        -->
-    <!-- ============================================================ -->
-
-    <!-- ---- Garden NW (X≈-5.5 to -2.5, Y≈8 to 11) ---- -->
-    <model name="garden_nw_grass">
-      <static>true</static><pose>-5.5 9 0.007 0 0 0</pose>
-      <link name="link">
-        <visual name="vis">
-          <geometry><box><size>5 5 0.01</size></box></geometry>
-          <material><ambient>0.42 0.72 0.30 1</ambient><diffuse>0.42 0.72 0.30 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <!-- Flower bed (pink patch) -->
-    <model name="garden_nw_flowers">
-      <static>true</static><pose>-5.5 10.5 0.012 0 0 0</pose>
-      <link name="link">
-        <visual name="vis">
-          <geometry><box><size>3 1.2 0.01</size></box></geometry>
-          <material><ambient>0.95 0.55 0.60 1</ambient><diffuse>0.95 0.55 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- ---- Garden SW (X≈-8 to -4, Y≈-8 to -5) ---- -->
-    <model name="garden_sw_grass">
-      <static>true</static><pose>-6 -6 0.007 0 0 0</pose>
-      <link name="link">
-        <visual name="vis">
-          <geometry><box><size>5 4 0.01</size></box></geometry>
-          <material><ambient>0.42 0.72 0.30 1</ambient><diffuse>0.42 0.72 0.30 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-    <model name="garden_sw_flowers">
-      <static>true</static><pose>-6 -4.5 0.012 0 0 0</pose>
-      <link name="link">
-        <visual name="vis">
-          <geometry><box><size>3 1.0 0.01</size></box></geometry>
-          <material><ambient>0.95 0.55 0.60 1</ambient><diffuse>0.95 0.55 0.60 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- ============================================================ -->
-    <!--  STREET LAMPS                                                -->
-    <!-- ============================================================ -->
-
+    <!-- STREET LAMPS -->
     <include>
       <name>lamp_plaza_ne</name>
       <uri>model://street_lamp</uri>
@@ -460,10 +203,7 @@
       <pose>-2.5 -7 0 0 0 0</pose>
     </include>
 
-    <!-- ============================================================ -->
-    <!--  PLAZA BENCHES                                               -->
-    <!-- ============================================================ -->
-
+    <!-- BENCHES -->
     <include>
       <name>bench_plaza_1</name>
       <uri>model://bench</uri>
@@ -474,8 +214,6 @@
       <uri>model://bench</uri>
       <pose>-2.2 -1.5 0 0 0 3.14159</pose>
     </include>
-
-    <!-- Benches in gardens -->
     <include>
       <name>bench_garden_nw</name>
       <uri>model://bench</uri>
@@ -488,56 +226,132 @@
     </include>
 
     <!-- ============================================================ -->
-    <!--  TREES                                                       -->
+    <!--  TREES  (12 total)                                           -->
+    <!--  4 at docking-station corners (just outside the 3.2x3.2 pad) -->
+    <!--  8 spread across empty areas of the map                      -->
     <!-- ============================================================ -->
 
-    <!-- Plaza corner trees -->
+    <!-- Docking station corners -->
     <include>
-      <name>tree_plaza_nw</name>
+      <name>tree_dock_ne</name>
       <uri>model://tree</uri>
-      <pose>-2.8 2.8 0 0 0 0</pose>
+      <pose>2.0 2.0 0 0 0 0</pose>
     </include>
     <include>
-      <name>tree_plaza_se</name>
+      <name>tree_dock_nw</name>
       <uri>model://tree</uri>
-      <pose>2.8 -2.8 0 0 0 0</pose>
-    </include>
-
-    <!-- Garden NW trees -->
-    <include>
-      <name>tree_nw_1</name>
-      <uri>model://tree</uri>
-      <pose>-7 8.5 0 0 0 0</pose>
+      <pose>-2.0 2.0 0 0 0 0</pose>
     </include>
     <include>
-      <name>tree_nw_2</name>
+      <name>tree_dock_se</name>
       <uri>model://tree</uri>
-      <pose>-4 9.5 0 0 0 0</pose>
+      <pose>2.0 -2.0 0 0 0 0</pose>
+    </include>
+    <include>
+      <name>tree_dock_sw</name>
+      <uri>model://tree</uri>
+      <pose>-2.0 -2.0 0 0 0 0</pose>
     </include>
 
-    <!-- Garden SW trees -->
+    <!-- North open area (between plaza and north houses) -->
     <include>
-      <name>tree_sw_1</name>
+      <name>tree_north_w</name>
       <uri>model://tree</uri>
-      <pose>-8 -5.5 0 0 0 0</pose>
+      <pose>-3 8.5 0 0 0 0</pose>
     </include>
     <include>
-      <name>tree_sw_2</name>
+      <name>tree_north_e</name>
       <uri>model://tree</uri>
-      <pose>-4.5 -6.5 0 0 0 0</pose>
+      <pose>3 8.5 0 0 0 0</pose>
     </include>
 
-    <!-- Street trees (along main N-S road) -->
+    <!-- NW open area (between pharmacy and north houses) -->
     <include>
-      <name>tree_road_n</name>
+      <name>tree_nw</name>
       <uri>model://tree</uri>
-      <pose>2.8 6.5 0 0 0 0</pose>
+      <pose>-7 9.5 0 0 0 0</pose>
+    </include>
+
+    <!-- SW open area (between fire station and south houses) -->
+    <include>
+      <name>tree_sw</name>
+      <uri>model://tree</uri>
+      <pose>-7 -8 0 0 0 0</pose>
+    </include>
+
+    <!-- South open area (between plaza and south houses) -->
+    <include>
+      <name>tree_south_w</name>
+      <uri>model://tree</uri>
+      <pose>-3 -8.5 0 0 0 0</pose>
     </include>
     <include>
-      <name>tree_road_s</name>
+      <name>tree_south_e</name>
       <uri>model://tree</uri>
-      <pose>-2.8 -6.5 0 0 0 0</pose>
+      <pose>3 -8.5 0 0 0 0</pose>
     </include>
+
+    <!-- East open gap between supermarket and restaurant -->
+    <include>
+      <name>tree_east_mid</name>
+      <uri>model://tree</uri>
+      <pose>6 0 0 0 0 0</pose>
+    </include>
+    <!-- East of south houses, open space -->
+    <include>
+      <name>tree_east_south</name>
+      <uri>model://tree</uri>
+      <pose>12 -11 0 0 0 0</pose>
+    </include>
+
+
+    <!-- QR SIGNS -->
+    <include>
+      <name>sign_house_1</name>
+      <uri>model://sign_house_1</uri>
+      <pose>-2.5 13.0 0 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>sign_house_2</name>
+      <uri>model://sign_house_2</uri>
+      <pose>-2.5 19.0 0 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>sign_house_3</name>
+      <uri>model://sign_house_3</uri>
+      <pose>1.0 15.0 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>sign_house_4</name>
+      <uri>model://sign_house_4</uri>
+      <pose>-2.5 -14.0 0 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>sign_house_5</name>
+      <uri>model://sign_house_5</uri>
+      <pose>3.5 -14.0 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>sign_pharmacy</name>
+      <uri>model://sign_pharmacy</uri>
+      <pose>-12.0 1.5 0 0 0 0.0</pose>
+    </include>
+    <include>
+      <name>sign_fire_station</name>
+      <uri>model://sign_fire_station</uri>
+      <pose>-12.0 -3.5 0 0 0 3.14159</pose>
+    </include>
+    <include>
+      <name>sign_restaurant</name>
+      <uri>model://sign_restaurant</uri>
+      <pose>14.0 -1.5 0 0 0 3.14159</pose>
+    </include>
+    <include>
+      <name>sign_supermarket</name>
+      <uri>model://sign_supermarket</uri>
+      <pose>12.5 2.0 0 0 0 0.0</pose>
+    </include>
+    <!-- END QR SIGNS -->
 
   </world>
 </sdf>
