@@ -20,9 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'explorer = service_robot.explorer:main',
-            'map_auto_saver = service_robot.map_auto_saver:main',
-            'traffic_wanderer = service_robot.traffic_wanderer:main',
+            'explorer        = service_robot.explorer:main',
+            'map_auto_saver  = service_robot.map_auto_saver:main',
         ],
     },
 )

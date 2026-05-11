@@ -1,28 +1,3 @@
-"""
-display.launch.py — Minimal robot visualisation (no SLAM, no maze)
-Package : robot_description
-Usage   : ros2 launch robot_description display.launch.py
-
-What it starts
---------------
-  robot_state_publisher — publishes URDF transforms
-  gz sim empty.sdf      — Gazebo with an empty world (no maze)
-  ros_gz_sim create     — spawns robot at (0, 0)
-  parameter_bridge      — bridges scan, camera, cmd_vel, odom, clock
-
-Use this when
--------------
-  - Checking the URDF model geometry / joint setup
-  - Testing sensor bridges without the maze world
-  - Quick sanity-check after modifying service_robot.urdf.xacro
-
-Debug tips
-----------
-  View model  : open RViz2 manually → add RobotModel display, topic /robot_description
-  Check TF    : ros2 run tf2_tools view_frames
-  Drive robot : ros2 run teleop_twist_keyboard teleop_twist_keyboard
-"""
-
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription

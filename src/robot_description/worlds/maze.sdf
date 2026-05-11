@@ -13,7 +13,7 @@
             name="gz::sim::systems::SceneBroadcaster"/>
     <plugin filename="gz-sim-sensors-system"
             name="gz::sim::systems::Sensors">
-      <render_engine>ogre</render_engine>
+      <render_engine>ogre2</render_engine>
     </plugin>
     <plugin filename="gz-sim-contact-system"
             name="gz::sim::systems::Contact"/>
@@ -200,13 +200,9 @@
             <diffuse>0.8 0.8 0.8 1</diffuse>
           </material>
         </visual>
-        <!--
-          QR: half size (0.7×0.7), bottom-right of south face.
-          World z-centre = 0.75 + (-0.40) = 0.35 m — near camera height.
-        -->
         <visual name="qr_face">
-          <pose>0.40 -0.76 -0.40 0 0 0</pose>
-          <geometry><box><size>0.7 0.01 0.7</size></box></geometry>
+          <pose>0 -0.76 0 0 0 0</pose>
+          <geometry><box><size>1.4 0.01 1.4</size></box></geometry>
           <material>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -235,14 +231,9 @@
             <diffuse>0.8 0.8 0.8 1</diffuse>
           </material>
         </visual>
-        <!--
-          QR: half size (0.7×0.7), bottom-right of west face.
-          World z-centre = 1 + (-0.65) = 0.35 m.
-          y offset = -0.40 puts it to the right when robot looks west.
-        -->
         <visual name="qr_face">
-          <pose>-0.76 -0.40 -0.65 0 0 0</pose>
-          <geometry><box><size>0.01 0.7 0.7</size></box></geometry>
+          <pose>-0.76 0 0 0 0 0</pose>
+          <geometry><box><size>0.01 1.4 1.9</size></box></geometry>
           <material>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -272,8 +263,8 @@
           </material>
         </visual>
         <visual name="qr_face">
-          <pose>-0.76 -0.40 -0.65 0 0 0</pose>
-          <geometry><box><size>0.01 0.7 0.7</size></box></geometry>
+          <pose>-0.76 0 0 0 0 0</pose>
+          <geometry><box><size>0.01 1.4 1.9</size></box></geometry>
           <material>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -302,13 +293,9 @@
             <diffuse>0.8 0.8 0.8 1</diffuse>
           </material>
         </visual>
-        <!--
-          QR: half W (1.45) × half H (0.7), bottom-centre of inward face.
-          World z-centre = 1 + (-0.65) = 0.35 m.
-        -->
         <visual name="qr_face">
-          <pose>0 0.16 -0.65 0 0 0</pose>
-          <geometry><box><size>1.45 0.01 0.7</size></box></geometry>
+          <pose>0 0.16 0 0 0 0</pose>
+          <geometry><box><size>2.9 0.01 1.9</size></box></geometry>
           <material>
             <ambient>1 1 1 1</ambient>
             <diffuse>1 1 1 1</diffuse>
@@ -388,22 +375,6 @@
       <visual name="v"><geometry><cylinder><radius>0.45</radius><length>1.8</length></cylinder></geometry>
         <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
     </link></model>
-
-
-    <!-- ── traffic robots ──────────────────────────────────────────── -->
-    <!-- Orange cylinder wanderer — upper-left corridor, clear of all walls -->
-    <include>
-      <uri>model://traffic_robot_a</uri>
-      <name>traffic_robot_1</name>
-      <pose>-7 3 0 0 0 0</pose>
-    </include>
-
-    <!-- Red flat-box wanderer — upper-centre area, clear of all walls -->
-    <include>
-      <uri>model://traffic_robot_b</uri>
-      <name>traffic_robot_2</name>
-      <pose>-3 5 0 0 0 0</pose>
-    </include>
 
   </world>
 </sdf>

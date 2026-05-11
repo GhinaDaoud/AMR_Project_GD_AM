@@ -20,6 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'mission_planner = mission_planner.mission_executor:main',
+            'mission_gui     = mission_planner.mission_gui:main',
+            'mission_web     = mission_planner.mission_web_server:main',
         ],
     },
 )

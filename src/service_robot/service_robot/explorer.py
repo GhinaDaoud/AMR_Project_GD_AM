@@ -1,41 +1,27 @@
 """
-explorer.py — Autonomous maze explorer (Part 1)
+explorer.py — Autonomous explorer for open environments (Part 1)
 Package : service_robot
 Node    : explorer
-Run via : ros2 launch robot_description slam.launch.py mode:=auto  (default)
-          ros2 run service_robot explorer                           (standalone)
 
 What it does
 ------------
-Drives the robot around the maze using a 3-state reactive state machine.
-No map needed — decisions are based purely on the live /scan laser ranges.
+Drives the robot autonomously using a 3-state reactive state machine.
+Decisions are based purely on the live /scan laser ranges — no map needed.
 
 State machine
 -------------
   EXPLORE  drive forward at LINEAR_SPEED
            → BACKUP  if front < FRONT_DANGER (wall very close)
            → TURN    if front < FRONT_CLEAR  (wall approaching)
-  TURN     rotate toward the more open side (left or right arc)
+  TURN     rotate toward the more open side
            → EXPLORE once front is clear again
   BACKUP   short reverse to create clearance
-           → TURN    once front > FRONT_DANGER * 1.8
+           → TURN    once front is clear enough
 
 Topics
 ------
-  Subscribes : /scan  (sensor_msgs/LaserScan)  — laser range data from LIDAR
-  Publishes  : /cmd_vel (geometry_msgs/Twist)  — velocity commands to the robot
-
-Tuning knobs (top of file)
---------------------------
-  LINEAR_SPEED, TURN_SPEED  — how fast the robot moves / rotates
-  FRONT_CLEAR, FRONT_DANGER — distance thresholds that trigger state changes
-  FRONT_HALF, SIDE_HALF     — angular arcs (degrees) used when sampling /scan
-
-Debug tips
-----------
-  Watch state changes : ros2 topic echo /rosout | grep explorer
-  Check velocity      : ros2 topic echo /cmd_vel
-  Check laser         : ros2 topic echo /scan --no-arr
+  Subscribes : /scan    (sensor_msgs/LaserScan) — laser range data
+  Publishes  : /cmd_vel (geometry_msgs/Twist)   — velocity commands
 """
 
 import math
@@ -47,10 +33,10 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 
 # ── tuneable parameters ──────────────────────────────────────────── #
-LINEAR_SPEED  = 0.40   # m/s forward
-TURN_SPEED    = 0.70   # rad/s rotation
-FRONT_CLEAR   = 0.70   # m  — free to drive if front farther than this
-FRONT_DANGER  = 0.30   # m  — back up immediately if closer than this
+LINEAR_SPEED  = 0.45   # m/s forward
+TURN_SPEED    = 0.65   # rad/s rotation
+FRONT_CLEAR   = 0.90   # m  — free to drive if front farther than this
+FRONT_DANGER  = 0.35   # m  — back up immediately if closer than this
 FRONT_HALF    = 30.0   # deg half-arc to check "ahead"
 SIDE_HALF     = 25.0   # deg half-arc for left/right open-side decision
 # ─────────────────────────────────────────────────────────────────── #
@@ -64,19 +50,16 @@ class ExplorerNode(Node):
         self.create_subscription(LaserScan, '/scan', self._on_scan, 10)
 
         self._state = 'EXPLORE'
-        self._turn_dir = 1        # +1 = left, -1 = right
+        self._turn_dir = 1
         self._last_scan = None
 
-        self.create_timer(0.1, self._step)   # 10 Hz control loop
+        self.create_timer(0.1, self._step)
         self.get_logger().info('Explorer ready — waiting for first scan…')
-
-    # ---------------------------------------------------------------- #
 
     def _on_scan(self, msg: LaserScan):
         self._last_scan = msg
 
     def _min_range(self, scan: LaserScan, center_deg: float, half: float) -> float:
-        """Minimum valid range inside [center-half, center+half] degrees."""
         lo, hi = center_deg - half, center_deg + half
         angle_min_deg = math.degrees(scan.angle_min)
         inc_deg = math.degrees(scan.angle_increment)
@@ -88,8 +71,6 @@ class ExplorerNode(Node):
             if lo <= angle <= hi and scan.range_min < r < scan.range_max:
                 best = min(best, r)
         return best
-
-    # ---------------------------------------------------------------- #
 
     def _step(self):
         if self._last_scan is None:
@@ -106,7 +87,6 @@ class ExplorerNode(Node):
             if front < FRONT_DANGER:
                 self._state = 'BACKUP'
                 self.get_logger().info(f'→ BACKUP  (front={front:.2f} m)')
-
             elif front < FRONT_CLEAR:
                 self._turn_dir = 1 if (left + random.uniform(0, 0.1)) >= right else -1
                 self._state = 'TURN'
@@ -142,7 +122,7 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.pub_cmd.publish(Twist())   # stop robot on exit
+        node.pub_cmd.publish(Twist())
         node.destroy_node()
         rclpy.shutdown()
 

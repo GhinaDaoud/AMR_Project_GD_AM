@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.10">
+  <world name="maze">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+      <render_engine>ogre</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-contact-system"
+            name="gz::sim::systems::Contact"/>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_north">
+      <static>true</static>
+      <link name="link">
+        <pose>0 10 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>20 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>20 0.2 2</size></box></geometry>
+          <material><ambient>0.4 0.4 0.6 1</ambient><diffuse>0.4 0.4 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_south">
+      <static>true</static>
+      <link name="link">
+        <pose>0 -10 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>20 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>20 0.2 2</size></box></geometry>
+          <material><ambient>0.4 0.4 0.6 1</ambient><diffuse>0.4 0.4 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_east">
+      <static>true</static>
+      <link name="link">
+        <pose>10 0 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 20 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 20 2</size></box></geometry>
+          <material><ambient>0.4 0.4 0.6 1</ambient><diffuse>0.4 0.4 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_west">
+      <static>true</static>
+      <link name="link">
+        <pose>-10 0 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 20 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 20 2</size></box></geometry>
+          <material><ambient>0.4 0.4 0.6 1</ambient><diffuse>0.4 0.4 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="h_div_left">
+      <static>true</static>
+      <link name="link">
+        <pose>-2.5 0 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>15 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>15 0.2 2</size></box></geometry>
+          <material><ambient>0.6 0.4 0.3 1</ambient><diffuse>0.6 0.4 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="v_div_left_lower">
+      <static>true</static>
+      <link name="link">
+        <pose>-5 0.25 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 2.5 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 2.5 2</size></box></geometry>
+          <material><ambient>0.3 0.6 0.4 1</ambient><diffuse>0.3 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="v_div_left_upper">
+      <static>true</static>
+      <link name="link">
+        <pose>-5 6.5 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 7 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 7 2</size></box></geometry>
+          <material><ambient>0.3 0.6 0.4 1</ambient><diffuse>0.3 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="v_div_right_top_lower">
+      <static>true</static>
+      <link name="link">
+        <pose>3 2.25 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 2.5 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 2.5 2</size></box></geometry>
+          <material><ambient>0.3 0.6 0.4 1</ambient><diffuse>0.3 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="v_div_right_top_upper">
+      <static>true</static>
+      <link name="link">
+        <pose>3 8 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 4 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 4 2</size></box></geometry>
+          <material><ambient>0.3 0.6 0.4 1</ambient><diffuse>0.3 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="br_wall_v_lower">
+      <static>true</static>
+      <link name="link">
+        <pose>3 -8 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 4 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 4 2</size></box></geometry>
+          <material><ambient>0.5 0.5 0.3 1</ambient><diffuse>0.5 0.5 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="br_wall_v_upper">
+      <static>true</static>
+      <link name="link">
+        <pose>3 -2.5 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 3 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 3 2</size></box></geometry>
+          <material><ambient>0.5 0.5 0.3 1</ambient><diffuse>0.5 0.5 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="br_wall_h">
+      <static>true</static>
+      <link name="link">
+        <pose>6.5 -3 1 0 0 0</pose>
+        <collision name="c"><geometry><box><size>7 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>7 0.2 2</size></box></geometry>
+          <material><ambient>0.5 0.5 0.3 1</ambient><diffuse>0.5 0.5 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== QR LANDMARK: tl_box at (-7.5, 6) QR facing south ===== -->
+    <model name="tl_box">
+      <static>true</static>
+      <link name="link">
+        <pose>-7.5 6 0.75 0 0 0</pose>
+        <collision name="c">
+          <geometry><box><size>1.5 1.5 1.5</size></box></geometry>
+        </collision>
+        <visual name="body">
+          <geometry><box><size>1.5 1.5 1.5</size></box></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        <!--
+          QR: half size (0.7×0.7), bottom-right of south face.
+          World z-centre = 0.75 + (-0.40) = 0.35 m — near camera height.
+        -->
+        <visual name="qr_face">
+          <pose>0.40 -0.76 -0.40 0 0 0</pose>
+          <geometry><box><size>0.7 0.01 0.7</size></box></geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <pbr>
+              <metal>
+                <albedo_map>/home/test/AMR_project/src/robot_description/worlds/qr_textures/qr_tl_box.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== QR LANDMARK: pillar_a at (0, 3) QR facing west ===== -->
+    <model name="pillar_a">
+      <static>true</static>
+      <link name="link">
+        <pose>0 3 1 0 0 0</pose>
+        <collision name="c">
+          <geometry><box><size>1.5 1.5 2</size></box></geometry>
+        </collision>
+        <visual name="body">
+          <geometry><box><size>1.5 1.5 2</size></box></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        <!--
+          QR: half size (0.7×0.7), bottom-right of west face.
+          World z-centre = 1 + (-0.65) = 0.35 m.
+          y offset = -0.40 puts it to the right when robot looks west.
+        -->
+        <visual name="qr_face">
+          <pose>-0.76 -0.40 -0.65 0 0 0</pose>
+          <geometry><box><size>0.01 0.7 0.7</size></box></geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <pbr>
+              <metal>
+                <albedo_map>/home/test/AMR_project/src/robot_description/worlds/qr_textures/qr_pillar_a.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== QR LANDMARK: pillar_b at (0, -4) QR facing west ===== -->
+    <model name="pillar_b">
+      <static>true</static>
+      <link name="link">
+        <pose>0 -4 1 0 0 0</pose>
+        <collision name="c">
+          <geometry><box><size>1.5 1.5 2</size></box></geometry>
+        </collision>
+        <visual name="body">
+          <geometry><box><size>1.5 1.5 2</size></box></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        <visual name="qr_face">
+          <pose>-0.76 -0.40 -0.65 0 0 0</pose>
+          <geometry><box><size>0.01 0.7 0.7</size></box></geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <pbr>
+              <metal>
+                <albedo_map>/home/test/AMR_project/src/robot_description/worlds/qr_textures/qr_pillar_b.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== QR LANDMARK: diag_block_1 at (6,6) QR on inward face ===== -->
+    <model name="diag_block_1">
+      <static>true</static>
+      <link name="link">
+        <pose>6 6 1 0 0 0.785</pose>
+        <collision name="c">
+          <geometry><box><size>3 0.3 2</size></box></geometry>
+        </collision>
+        <visual name="body">
+          <geometry><box><size>3 0.3 2</size></box></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        <!--
+          QR: half W (1.45) × half H (0.7), bottom-centre of inward face.
+          World z-centre = 1 + (-0.65) = 0.35 m.
+        -->
+        <visual name="qr_face">
+          <pose>0 0.16 -0.65 0 0 0</pose>
+          <geometry><box><size>1.45 0.01 0.7</size></box></geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <pbr>
+              <metal>
+                <albedo_map>/home/test/AMR_project/src/robot_description/worlds/qr_textures/qr_diag_block_1.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="diag_block_2">
+      <static>true</static>
+      <link name="link">
+        <pose>7.5 4.5 1 0 0 0.785</pose>
+        <collision name="c"><geometry><box><size>3 0.3 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>3 0.3 2</size></box></geometry>
+          <material><ambient>0.3 0.3 0.7 1</ambient><diffuse>0.3 0.3 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obs_cyl_1"><static>true</static><link name="link">
+      <pose>1.5 2 0.4 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.12</radius><length>0.8</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.12</radius><length>0.8</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_2"><static>true</static><link name="link">
+      <pose>-2 -3 0.6 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.25</radius><length>1.2</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.25</radius><length>1.2</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_3"><static>true</static><link name="link">
+      <pose>-7 -6 0.5 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_4"><static>true</static><link name="link">
+      <pose>7 -7 0.85 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.4</radius><length>1.7</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.4</radius><length>1.7</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_5"><static>true</static><link name="link">
+      <pose>-3 7.5 0.75 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.35</radius><length>1.5</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.35</radius><length>1.5</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_6"><static>true</static><link name="link">
+      <pose>6 -5 0.5 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_7"><static>true</static><link name="link">
+      <pose>6.5 7 0.45 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.18</radius><length>0.9</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.18</radius><length>0.9</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+    <model name="obs_cyl_8"><static>true</static><link name="link">
+      <pose>-7.5 -4 0.9 0 0 0</pose>
+      <collision name="c"><geometry><cylinder><radius>0.45</radius><length>1.8</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.45</radius><length>1.8</length></cylinder></geometry>
+        <material><ambient>0.9 0.4 0.1 1</ambient><diffuse>0.9 0.4 0.1 1</diffuse></material></visual>
+    </link></model>
+
+
+    <!-- ── traffic robots ──────────────────────────────────────────── -->
+    <!-- Orange cylinder wanderer — upper-left corridor, clear of all walls -->
+    <include>
+      <uri>model://traffic_robot_a</uri>
+      <name>traffic_robot_1</name>
+      <pose>-7 3 0 0 0 0</pose>
+    </include>
+
+    <!-- Red flat-box wanderer — upper-centre area, clear of all walls -->
+    <include>
+      <uri>model://traffic_robot_b</uri>
+      <name>traffic_robot_2</name>
+      <pose>-3 5 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

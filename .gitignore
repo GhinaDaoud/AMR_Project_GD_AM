@@ -37,17 +37,36 @@ build/
 install/
 log/
 
-# Windows download metadata (Zone.Identifier alternate data streams)
-**/*Zone.Identifier*
+# Windows download metadata — Zone.Identifier alternate data streams
+# These are created on Windows when files are downloaded; git must never track them.
+*Zone.Identifier
+*Zone.Identifier:*
+**/*Zone.Identifier
+**/*Zone.Identifier:*
 
 # Python build artifacts
+__pycache__/
 **/__pycache__/
-**/*.egg-info/
+*.pyc
 **/*.pyc
+*.pyo
+**/*.pyo
+*.egg-info/
+**/*.egg-info/
+
+# Editor swap / backup files
+*.swp
+**/*.swp
+*.swo
+**/*.swo
+*~
 
 # leftover archives
 src.zip
 
 # town launch (deferred to Part 2)
-src\my_local\maps
+# src/my_local/maps
 other/japan/new
+
+# vim swap files
+**/*.swp

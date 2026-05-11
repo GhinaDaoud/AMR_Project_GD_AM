@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<!-- House Type B: 6x6m cream residential, flat roof with parapet, front faces -Y -->
+<sdf version="1.6">
+  <model name="house_type_b">
+    <static>true</static>
+    <link name="link">
+
+      <collision name="col">
+        <pose>0 0 2.15 0 0 0</pose>
+        <geometry><box><size>6 6 4.3</size></box></geometry>
+      </collision>
+
+      <!-- Main walls 6x6x3.8m -->
+      <visual name="walls">
+        <pose>0 0 1.9 0 0 0</pose>
+        <geometry><box><size>6 6 3.8</size></box></geometry>
+        <material>
+          <ambient>0.90 0.85 0.70 1</ambient>
+          <diffuse>0.90 0.85 0.70 1</diffuse>
+          <specular>0.05 0.05 0.05 1</specular>
+        </material>
+      </visual>
+
+      <visual name="roof_surface">
+        <pose>0 0 3.85 0 0 0</pose>
+        <geometry><box><size>6.0 6.0 0.1</size></box></geometry>
+        <material><ambient>0.62 0.60 0.56 1</ambient><diffuse>0.62 0.60 0.56 1</diffuse></material>
+      </visual>
+
+      <!-- Parapet: front at Y=-3.0 → parapet at Y=-3.15 -->
+      <visual name="parapet_front">
+        <pose>0 -3.15 4.1 0 0 0</pose>
+        <geometry><box><size>6.2 0.3 0.4</size></box></geometry>
+        <material><ambient>0.93 0.91 0.86 1</ambient><diffuse>0.93 0.91 0.86 1</diffuse></material>
+      </visual>
+      <visual name="parapet_back">
+        <pose>0 3.15 4.1 0 0 0</pose>
+        <geometry><box><size>6.2 0.3 0.4</size></box></geometry>
+        <material><ambient>0.93 0.91 0.86 1</ambient><diffuse>0.93 0.91 0.86 1</diffuse></material>
+      </visual>
+      <visual name="parapet_left">
+        <pose>-3.15 0 4.1 0 0 0</pose>
+        <geometry><box><size>0.3 6.2 0.4</size></box></geometry>
+        <material><ambient>0.93 0.91 0.86 1</ambient><diffuse>0.93 0.91 0.86 1</diffuse></material>
+      </visual>
+      <visual name="parapet_right">
+        <pose>3.15 0 4.1 0 0 0</pose>
+        <geometry><box><size>0.3 6.2 0.4</size></box></geometry>
+        <material><ambient>0.93 0.91 0.86 1</ambient><diffuse>0.93 0.91 0.86 1</diffuse></material>
+      </visual>
+
+      <visual name="door">
+        <pose>0 -3.06 0.9 0 0 0</pose>
+        <geometry><box><size>1.0 0.12 1.9</size></box></geometry>
+        <material><ambient>0.28 0.18 0.08 1</ambient><diffuse>0.28 0.18 0.08 1</diffuse></material>
+      </visual>
+      <visual name="door_surround">
+        <pose>0 -3.045 0.95 0 0 0</pose>
+        <geometry><box><size>1.2 0.09 2.1</size></box></geometry>
+        <material><ambient>1.0 0.97 0.88 1</ambient><diffuse>1.0 0.97 0.88 1</diffuse></material>
+      </visual>
+
+      <visual name="win_front_left">
+        <pose>-2.0 -3.06 2.2 0 0 0</pose>
+        <geometry><box><size>0.9 0.1 0.9</size></box></geometry>
+        <material>
+          <ambient>0.75 0.87 1.0 1</ambient><diffuse>0.75 0.87 1.0 1</diffuse>
+          <specular>0.6 0.6 0.6 1</specular>
+        </material>
+      </visual>
+      <visual name="win_front_right">
+        <pose>2.0 -3.06 2.2 0 0 0</pose>
+        <geometry><box><size>0.9 0.1 0.9</size></box></geometry>
+        <material>
+          <ambient>0.75 0.87 1.0 1</ambient><diffuse>0.75 0.87 1.0 1</diffuse>
+          <specular>0.6 0.6 0.6 1</specular>
+        </material>
+      </visual>
+      <visual name="win_back">
+        <pose>0 3.06 2.2 0 0 0</pose>
+        <geometry><box><size>1.1 0.1 0.9</size></box></geometry>
+        <material>
+          <ambient>0.75 0.87 1.0 1</ambient><diffuse>0.75 0.87 1.0 1</diffuse>
+          <specular>0.6 0.6 0.6 1</specular>
+        </material>
+      </visual>
+
+      <visual name="qr_code">
+        <pose>0 -3.035 2.0 0 0 0</pose>
+        <geometry><box><size>0.5 0.05 0.5</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>
