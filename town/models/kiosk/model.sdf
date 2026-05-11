@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<!-- Kiosk / utility pavilion: 4x4m open structure, warm tan, flat roof. Front faces -Y -->
+<sdf version="1.6">
+  <model name="kiosk">
+    <static>true</static>
+    <link name="link">
+
+      <!-- Collision for base and roof -->
+      <collision name="col_base">
+        <pose>0 0 0.5 0 0 0</pose>
+        <geometry><box><size>4 4 1.0</size></box></geometry>
+      </collision>
+      <collision name="col_roof">
+        <pose>0 0 3.1 0 0 0</pose>
+        <geometry><box><size>4.8 4.8 0.2</size></box></geometry>
+      </collision>
+      <!-- Post collisions -->
+      <collision name="col_post_fl">
+        <pose>-1.8 -1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+      </collision>
+      <collision name="col_post_fr">
+        <pose>1.8 -1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+      </collision>
+      <collision name="col_post_bl">
+        <pose>-1.8 1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+      </collision>
+      <collision name="col_post_br">
+        <pose>1.8 1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+      </collision>
+
+      <!-- Solid lower base / plinth -->
+      <visual name="base">
+        <pose>0 0 0.5 0 0 0</pose>
+        <geometry><box><size>4 4 1.0</size></box></geometry>
+        <material>
+          <ambient>0.78 0.62 0.28 1</ambient>
+          <diffuse>0.78 0.62 0.28 1</diffuse>
+        </material>
+      </visual>
+
+      <!-- Corner posts (4 cylinders, from base top at Z=1 up to Z=3) -->
+      <visual name="post_fl">
+        <pose>-1.8 -1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+        <material><ambient>0.62 0.48 0.18 1</ambient><diffuse>0.62 0.48 0.18 1</diffuse></material>
+      </visual>
+      <visual name="post_fr">
+        <pose>1.8 -1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+        <material><ambient>0.62 0.48 0.18 1</ambient><diffuse>0.62 0.48 0.18 1</diffuse></material>
+      </visual>
+      <visual name="post_bl">
+        <pose>-1.8 1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+        <material><ambient>0.62 0.48 0.18 1</ambient><diffuse>0.62 0.48 0.18 1</diffuse></material>
+      </visual>
+      <visual name="post_br">
+        <pose>1.8 1.8 2.0 0 0 0</pose>
+        <geometry><cylinder><radius>0.12</radius><length>2.0</length></cylinder></geometry>
+        <material><ambient>0.62 0.48 0.18 1</ambient><diffuse>0.62 0.48 0.18 1</diffuse></material>
+      </visual>
+
+      <!-- Flat roof with slight overhang -->
+      <visual name="roof">
+        <pose>0 0 3.1 0 0 0</pose>
+        <geometry><box><size>4.8 4.8 0.2</size></box></geometry>
+        <material>
+          <ambient>0.58 0.42 0.14 1</ambient>
+          <diffuse>0.58 0.42 0.14 1</diffuse>
+        </material>
+      </visual>
+
+      <!-- Roof fascia strips (darker edge) -->
+      <visual name="fascia_front">
+        <pose>0 -2.4 2.96 0 0 0</pose>
+        <geometry><box><size>4.8 0.08 0.28</size></box></geometry>
+        <material><ambient>0.42 0.30 0.10 1</ambient><diffuse>0.42 0.30 0.10 1</diffuse></material>
+      </visual>
+      <visual name="fascia_back">
+        <pose>0 2.4 2.96 0 0 0</pose>
+        <geometry><box><size>4.8 0.08 0.28</size></box></geometry>
+        <material><ambient>0.42 0.30 0.10 1</ambient><diffuse>0.42 0.30 0.10 1</diffuse></material>
+      </visual>
+      <visual name="fascia_left">
+        <pose>-2.4 0 2.96 0 0 0</pose>
+        <geometry><box><size>0.08 4.8 0.28</size></box></geometry>
+        <material><ambient>0.42 0.30 0.10 1</ambient><diffuse>0.42 0.30 0.10 1</diffuse></material>
+      </visual>
+      <visual name="fascia_right">
+        <pose>2.4 0 2.96 0 0 0</pose>
+        <geometry><box><size>0.08 4.8 0.28</size></box></geometry>
+        <material><ambient>0.42 0.30 0.10 1</ambient><diffuse>0.42 0.30 0.10 1</diffuse></material>
+      </visual>
+
+      <!-- Information notice board on front face -->
+      <visual name="notice_board">
+        <pose>0 -2.06 1.65 0 0 0</pose>
+        <geometry><box><size>2.0 0.08 0.9</size></box></geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1</ambient>
+          <diffuse>1.0 1.0 1.0 1</diffuse>
+        </material>
+      </visual>
+      <!-- Notice board frame -->
+      <visual name="board_frame">
+        <pose>0 -2.05 1.65 0 0 0</pose>
+        <geometry><box><size>2.2 0.06 1.1</size></box></geometry>
+        <material><ambient>0.50 0.38 0.12 1</ambient><diffuse>0.50 0.38 0.12 1</diffuse></material>
+      </visual>
+
+      <!-- QR placeholder on notice board -->
+      <visual name="qr_code">
+        <pose>0 -2.025 1.65 0 0 0</pose>
+        <geometry><box><size>0.5 0.05 0.5</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>

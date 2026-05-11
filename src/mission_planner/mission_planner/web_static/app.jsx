@@ -256,7 +256,7 @@ function App() {
                 React.createElement(
                   'div',
                   { className: 'landmark-card', key: lm.id, onClick: () => addLandmark(lm) },
-                  React.createElement(Thumb, { index: lm.id }),
+                  React.createElement(Thumb, { index: lm.id, name: lm.name }),
                   React.createElement(
                     'div',
                     { className: 'lm-info' },

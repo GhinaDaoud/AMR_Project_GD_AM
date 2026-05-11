@@ -14,17 +14,31 @@ window.Icon = function Icon({ name, size = 16 }) {
   );
 };
 
-window.Thumb = function Thumb({ index }) {
-  const colors = [
-    '#6366f1', '#10b981', '#f59e0b', '#f43f5e',
-    '#8b5cf6', '#06b6d4', '#84cc16', '#f97316',
-  ];
-  const emojis = ['📦', '🔵', '🟡', '🔴', '🟣', '🔷', '🟢', '🟠'];
-  const color = colors[(index - 1) % colors.length];
-  const emoji = emojis[(index - 1) % emojis.length];
+window.Thumb = function Thumb({ index, name }) {
+  const n = (name || '').toLowerCase().replace(/\s+/g, '_');
+
+  const ROLES = {
+    supermarket:  { emoji: '🛒', color: '#10b981' },
+    restaurant:   { emoji: '🍽️', color: '#f43f5e' },
+    pharmacy:     { emoji: '💊', color: '#06b6d4' },
+    fire_station: { emoji: '🚒', color: '#f97316' },
+    firestation:  { emoji: '🚒', color: '#f97316' },
+  };
+
+  let entry;
+  if (n.startsWith('house')) {
+    // house_1 … house_5 — each gets a distinct warm shade so they're easy to tell apart
+    const houseColors = ['#f59e0b', '#fb923c', '#a78bfa', '#34d399', '#60a5fa'];
+    const houseNum = parseInt(n.replace(/\D/g, ''), 10) || 1;
+    entry = { emoji: '🏠', color: houseColors[(houseNum - 1) % houseColors.length] };
+  } else {
+    const fallback = ['#6366f1', '#8b5cf6', '#84cc16'];
+    entry = ROLES[n] || { emoji: '📍', color: fallback[(index - 1) % fallback.length] };
+  }
+
   return React.createElement(
     'div',
-    { className: 'lm-thumb', style: { background: color + '20', border: `1.5px solid ${color}40` } },
-    emoji
+    { className: 'lm-thumb', style: { background: entry.color + '20', border: `1.5px solid ${entry.color}40` } },
+    entry.emoji
   );
 };

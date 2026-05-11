@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!--
+  firefighting_center — Kwun Tong fire station GLB from other/japan.
+  This is a large real-world building — using scale 0.15 as starting point.
+  Tune: too big -> 0.08, too small -> 0.25
+  If floating: add negative Z in pose (e.g. 0 0 -0.5)
+-->
+<sdf version="1.6">
+  <model name="firefighting_center">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+
+      <collision name="collision">
+        <pose>0 0 3.5 0 0 0</pose>
+        <geometry><box><size>7 7 7</size></box></geometry>
+      </collision>
+
+      <!-- Fallback grey box — visible even if GLB fails to load -->
+      <visual name="fallback_box">
+        <pose>0 0 3.5 0 0 0</pose>
+        <geometry><box><size>7 7 7</size></box></geometry>
+        <material>
+          <ambient>0.68 0.68 0.66 0.4</ambient>
+          <diffuse>0.68 0.68 0.66 0.4</diffuse>
+        </material>
+      </visual>
+
+      <visual name="mesh">
+        <geometry>
+          <mesh>
+            <uri>model://firefighting_center/meshes/model.glb</uri>
+            <scale>0.15 0.15 0.15</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

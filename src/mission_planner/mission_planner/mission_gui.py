@@ -334,7 +334,7 @@ def main(args=None):
 
     db_path = os.path.join(_maps_dir(), 'landmark_db.json')
     with open(db_path, 'r') as f:
-        landmarks = list(json.load(f).get('landmarks', {}).items())
+        landmarks = list(json.load(f).items())
 
     threading.Thread(target=rclpy.spin, args=(node,), daemon=True).start()
 
