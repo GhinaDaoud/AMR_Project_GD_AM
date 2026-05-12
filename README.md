@@ -9,6 +9,7 @@ A ROS2-based autonomous mobile robot that maps a simulated town using SLAM, dete
 <!-- Add screenshots or a demo video link here -->
 > 📸 Place screenshots in `docs/images/` and reference them below.
 > 🎥 For videos, upload to YouTube and paste the link.
+https://youtu.be/ttTxQ7kZ4OM
 
 | Mapping Phase | Navigation Phase | Web GUI |
 |:---:|:---:|:---:|
@@ -33,6 +34,7 @@ Gazebo Simulation
 - **Autonomous SLAM mapping** with a reactive explorer (auto + keyboard override)
 - **QR landmark detection** using dual cv2 + pyzbar decoder; saves positions in map frame via TF
 - **Nav2 navigation** with static-map-only costmap (no lidar noise artifacts)
+- **Dynamic obstacle avoidance** using Nav2 live costmap layer — robot detects and re-routes around unexpected obstacles in real time
 - **Mission planner** that sends the robot to user-selected landmarks in sequence and docks it back
 - **Flask web GUI** with role-based landmark icons and real-time status via Server-Sent Events
 
@@ -131,6 +133,21 @@ Then open the mission GUI at **http://localhost:5000**
 1. Select landmarks in delivery order
 2. Click **Start Mission**
 3. Robot navigates to each stop and returns to the docking station
+
+---
+
+## Dynamic Obstacle Avoidance
+
+The robot handles unexpected obstacles at runtime using Nav2's live obstacle layer on top of the static map. When a new obstacle is detected by the LiDAR mid-mission:
+
+1. The **local costmap** marks the obstacle in real time
+2. The **global planner** is triggered to recompute the path around it
+3. The **regulated pure pursuit controller** follows the updated path
+4. Once the obstacle is cleared, the costmap decays and the original path is restored
+
+This was developed as a collaborative extension to the base navigation stack.
+
+> 📂 Code for this feature will be added to the repository shortly.
 
 ---
 
