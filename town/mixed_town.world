@@ -14,20 +14,20 @@
 
     <gravity>0 0 -9.8</gravity>
     <physics type="ode">
-      <real_time_update_rate>500.0</real_time_update_rate>
-      <max_step_size>0.002</max_step_size>
+      <real_time_update_rate>200.0</real_time_update_rate>
+      <max_step_size>0.005</max_step_size>
       <real_time_factor>1</real_time_factor>
       <ode>
         <solver>
           <type>quick</type>
-          <iters>50</iters>
+          <iters>40</iters>
           <sor>1.3</sor>
         </solver>
         <constraints>
-          <cfm>0.0</cfm>
+          <cfm>0.0001</cfm>
           <erp>0.2</erp>
-          <contact_max_correcting_vel>100.0</contact_max_correcting_vel>
-          <contact_surface_layer>0.001</contact_surface_layer>
+          <contact_max_correcting_vel>5.0</contact_max_correcting_vel>
+          <contact_surface_layer>0.002</contact_surface_layer>
         </constraints>
       </ode>
     </physics>
@@ -273,28 +273,6 @@
     <!--  4 at docking-station corners (just outside the 3.2x3.2 pad) -->
     <!--  8 spread across empty areas of the map                      -->
     <!-- ============================================================ -->
-
-    <!-- Docking station corners -->
-    <include>
-      <name>tree_dock_ne</name>
-      <uri>model://tree</uri>
-      <pose>2.0 2.0 0 0 0 0</pose>
-    </include>
-    <include>
-      <name>tree_dock_nw</name>
-      <uri>model://tree</uri>
-      <pose>-2.0 2.0 0 0 0 0</pose>
-    </include>
-    <include>
-      <name>tree_dock_se</name>
-      <uri>model://tree</uri>
-      <pose>2.0 -2.0 0 0 0 0</pose>
-    </include>
-    <include>
-      <name>tree_dock_sw</name>
-      <uri>model://tree</uri>
-      <pose>-2.0 -2.0 0 0 0 0</pose>
-    </include>
 
     <!-- North open area (between plaza and north houses) -->
     <include>

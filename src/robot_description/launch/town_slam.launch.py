@@ -27,6 +27,13 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 import xacro
 
+
+def _maps_dir() -> str:
+    from ament_index_python.packages import get_package_share_directory as gpsd
+    share = gpsd('my_local')
+    ws_root = os.path.abspath(os.path.join(share, '..', '..', '..', '..'))
+    return os.path.join(ws_root, 'src', 'my_local', 'maps')
+
 def _town_dir() -> str:
     from ament_index_python.packages import get_package_share_directory as gpsd
     share = gpsd('my_local')
@@ -45,7 +52,10 @@ def generate_launch_description():
     robot_description = xacro.process_file(xacro_file).toxml()
     slam_config = os.path.join(pkg_path, 'config', 'slam_config.yaml')
 
-    mode = LaunchConfiguration('mode')
+    mode     = LaunchConfiguration('mode')
+    cont_map = LaunchConfiguration('continue_mapping')
+
+    # (maps_dir and map_live resolved below, next to slam node definition)
 
     # ── environment ───────────────────────────────────────────────────
     gz_resource_path = ':'.join(filter(None, [
@@ -59,10 +69,24 @@ def generate_launch_description():
     os.environ['GZ_SIM_RESOURCE_PATH'] = gz_resource_path
     set_gz_path = SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_resource_path)
 
+    declare_continue = DeclareLaunchArgument(
+        'continue_mapping',
+        default_value='false',
+        description=(
+            'Set to "true" to resume from the saved posegraph '
+            '(town_map_BACKUP). Robot must spawn at the docking station (0,0).'
+        ),
+    )
+
     declare_mode = DeclareLaunchArgument(
         'mode',
-        default_value='auto',
-        description='Exploration mode: "auto" (explorer node) or "teleop" (keyboard)',
+        default_value='hybrid',
+        description=(
+            '"hybrid" (default) — explorer runs automatically; '
+            'press any key in the xterm window to take over, release to return to auto. '
+            '"auto" — explorer only, no keyboard. '
+            '"teleop" — keyboard only, no explorer.'
+        ),
     )
 
     # ── core nodes ────────────────────────────────────────────────────
@@ -73,9 +97,6 @@ def generate_launch_description():
         output='screen',
     )
 
-    # Combined server+GUI using ogre2 (Gazebo Harmonic default).
-    # ogre2 handles GLB meshes correctly; ogre1 was what crashed before.
-    # Combined mode gives gpu_lidar and camera sensors a proper GL context.
     gazebo = ExecuteProcess(
         cmd=['gz', 'sim', '-r', WORLD_FILE],
         output='screen',
@@ -117,20 +138,45 @@ def generate_launch_description():
     )
 
     # ── SLAM toolbox (mapping mode) ───────────────────────────────────
-    slam = TimerAction(period=5.0, actions=[
+    maps_dir   = _maps_dir()
+    map_live   = os.path.join(maps_dir, 'town_map')
+
+    _slam_base_params = {
+        'use_sim_time': True,
+        'odom_frame': 'odom',
+        'map_frame': 'map',
+        'base_frame': 'base_footprint',
+        'scan_topic': '/scan',
+        'mode': 'mapping',
+    }
+    # Fresh start — map_file_name explicitly empty so SLAM never auto-loads
+    slam_fresh = TimerAction(period=5.0, actions=[
+        Node(
+            package='slam_toolbox',
+            executable='sync_slam_toolbox_node',
+            name='slam_toolbox',
+            output='screen',
+            parameters=[slam_config, {**_slam_base_params, 'map_file_name': ''}],
+            condition=IfCondition(
+                PythonExpression(["'", cont_map, "' != 'true'"])
+            ),
+        )
+    ])
+    # Continue from latest saved posegraph (town_map — updated every 10 s)
+    slam_continue = TimerAction(period=5.0, actions=[
         Node(
             package='slam_toolbox',
             executable='sync_slam_toolbox_node',
             name='slam_toolbox',
             output='screen',
             parameters=[slam_config, {
-                'use_sim_time': True,
-                'odom_frame': 'odom',
-                'map_frame': 'map',
-                'base_frame': 'base_footprint',
-                'scan_topic': '/scan',
-                'mode': 'mapping',
+                **_slam_base_params,
+                'map_file_name': map_live,
+                'map_start_at_dock': True,
             }],
+            condition=IfCondition(
+                PythonExpression(["'", cont_map, "' == 'true'"])
+            ),
         )
     ])
 
@@ -157,13 +203,15 @@ def generate_launch_description():
             executable='qr_detector',
             name='qr_detector',
             output='screen',
+            parameters=[{'use_sim_time': True}],
         )
     ])
 
-    is_auto   = PythonExpression(["'", mode, "' == 'auto'"])
-    is_teleop = PythonExpression(["'", mode, "' == 'teleop'"])
+    is_auto   = PythonExpression(["'", mode, "' in ('auto', 'hybrid')"])
+    is_hybrid = PythonExpression(["'", mode, "' == 'hybrid'"])
 
-    # ── auto mode: explorer ───────────────────────────────────────────
+    # ── explorer (auto + hybrid modes) ───────────────────────────────
+    # In hybrid mode it publishes to /cmd_vel_auto; mux decides what reaches /cmd_vel
     explorer = TimerAction(period=15.0, actions=[
         Node(
             package='service_robot',
@@ -174,7 +222,9 @@ def generate_launch_description():
         )
     ])
 
-    # ── teleop mode: keyboard (opens in its own xterm window) ────────
+    # ── keyboard — opens in its own xterm window ──────────────────────
+    # teleop mode  → publishes directly to /cmd_vel
+    # hybrid mode  → publishes to /cmd_vel_teleop (mux blends it with explorer)
     teleop = TimerAction(period=15.0, actions=[
         Node(
             package='teleop_twist_keyboard',
@@ -182,20 +232,32 @@ def generate_launch_description():
             name='teleop_twist_keyboard',
             output='screen',
             prefix='xterm -e' if os.environ.get('DISPLAY') else '',
-            condition=IfCondition(is_teleop),
+            remappings=[('/cmd_vel', '/cmd_vel_teleop')],
+            condition=IfCondition(is_hybrid),
+        ),
+        Node(
+            package='teleop_twist_keyboard',
+            executable='teleop_twist_keyboard',
+            name='teleop_twist_keyboard',
+            output='screen',
+            prefix='xterm -e' if os.environ.get('DISPLAY') else '',
+            condition=IfCondition(
+                PythonExpression(["'", mode, "' == 'teleop'"])
+            ),
+        ),
+    ])
+
+    # ── mux — hybrid mode only ────────────────────────────────────────
+    mux = TimerAction(period=15.0, actions=[
+        Node(
+            package='service_robot',
+            executable='teleop_mux',
+            name='teleop_mux',
+            output='screen',
+            condition=IfCondition(is_hybrid),
         )
     ])
 
-    # ── map auto saver (saves town_map.*) ────────────────────────────
-    map_saver = TimerAction(period=70.0, actions=[
-        Node(
-            package='service_robot',
-            executable='map_auto_saver',
-            name='map_auto_saver',
-            output='screen',
-            parameters=[{'map_name': 'town_map'}],
-        )
-    ])
 
     # ── RViz — delayed so SLAM has time to publish map→odom first ────
     rviz_config = os.path.join(pkg_path, 'config', 'slam.rviz')
@@ -210,6 +272,7 @@ def generate_launch_description():
     ])
 
     return LaunchDescription([
+        declare_continue,
         declare_mode,
         set_gz_path,
         robot_state_publisher,
@@ -217,11 +280,12 @@ def generate_launch_description():
         spawn_robot,
         bridge,
         tf_bridge,
-        slam,
+        slam_fresh,
+        slam_continue,
+        mux,
         lifecycle_slam,
         qr_detector,
         explorer,
         teleop,
-        map_saver,
         rviz,
     ])

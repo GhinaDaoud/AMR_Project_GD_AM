@@ -24,7 +24,7 @@ from nav_msgs.msg import OccupancyGrid
 from slam_toolbox.srv import SerializePoseGraph
 
 
-SAVE_INTERVAL_SEC = 60.0
+SAVE_INTERVAL_SEC = 10.0
 FREE_THRESH = 0.25
 OCC_THRESH  = 0.65
 UNKNOWN_VAL = 205
@@ -140,6 +140,8 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
+        node.get_logger().info('Shutdown — saving final map...')
+        node._save_all()
         node.destroy_node()
         rclpy.shutdown()
 

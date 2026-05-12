@@ -1,6 +1,7 @@
 image: town_map.pgm
-resolution: 0.05000000074505806
-origin: [-50.30112986933399, -12.039838563438705, 0.0]
+mode: trinary
+resolution: 0.050
+origin: [-17.918, -17.977, 0]
 negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.25
+occupied_thresh: 0.80
+free_thresh: 0.196

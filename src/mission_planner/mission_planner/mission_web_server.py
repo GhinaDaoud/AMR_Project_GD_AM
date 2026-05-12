@@ -25,7 +25,7 @@ def _maps_dir() -> str:
 
 
 def _static_dir() -> str:
-    return os.path.join(os.path.dirname(__file__), 'web_static')
+    return os.path.join(get_package_share_directory('mission_planner'), 'web_static')
 
 
 class MissionWebNode(Node):

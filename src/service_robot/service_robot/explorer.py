@@ -33,10 +33,10 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 
 # ── tuneable parameters ──────────────────────────────────────────── #
-LINEAR_SPEED  = 0.45   # m/s forward
-TURN_SPEED    = 0.65   # rad/s rotation
-FRONT_CLEAR   = 0.90   # m  — free to drive if front farther than this
-FRONT_DANGER  = 0.35   # m  — back up immediately if closer than this
+LINEAR_SPEED  = 0.28   # m/s forward — slow enough for safe stops
+TURN_SPEED    = 0.55   # rad/s rotation
+FRONT_CLEAR   = 1.20   # m  — start turning while still far from obstacles
+FRONT_DANGER  = 0.50   # m  — back up well before hitting anything
 FRONT_HALF    = 30.0   # deg half-arc to check "ahead"
 SIDE_HALF     = 25.0   # deg half-arc for left/right open-side decision
 # ─────────────────────────────────────────────────────────────────── #
@@ -46,7 +46,7 @@ class ExplorerNode(Node):
     def __init__(self):
         super().__init__('explorer')
 
-        self.pub_cmd = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.pub_cmd = self.create_publisher(Twist, '/cmd_vel_auto', 10)
         self.create_subscription(LaserScan, '/scan', self._on_scan, 10)
 
         self._state = 'EXPLORE'

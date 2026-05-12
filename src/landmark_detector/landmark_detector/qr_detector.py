@@ -5,9 +5,9 @@ import cv2
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 from cv_bridge import CvBridge
-from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+import tf2_ros
 
 try:
     from pyzbar.pyzbar import decode as pyzbar_decode
@@ -28,13 +28,12 @@ class QRDetectorNode(Node):
 
         self.subscription = self.create_subscription(
             Image, '/camera/image_raw', self.image_callback, 10)
-        self.odom_subscription = self.create_subscription(
-            Odometry, '/odom', self.odom_callback, 10)
 
         self.bridge = CvBridge()
-        self.current_x = 0.0
-        self.current_y = 0.0
         self.detected_landmarks = {}
+
+        self._tf_buffer = tf2_ros.Buffer()
+        self._tf_listener = tf2_ros.TransformListener(self._tf_buffer, self)
 
         self._cv2_detector = cv2.QRCodeDetector()
 
@@ -49,9 +48,14 @@ class QRDetectorNode(Node):
 
         self.get_logger().info('QR Detector Node started')
 
-    def odom_callback(self, msg):
-        self.current_x = msg.pose.pose.position.x
-        self.current_y = msg.pose.pose.position.y
+    def _get_map_position(self):
+        """Return (x, y) of the robot in the map frame, or None on failure."""
+        try:
+            t = self._tf_buffer.lookup_transform(
+                'map', 'base_footprint', rclpy.time.Time())
+            return (t.transform.translation.x, t.transform.translation.y)
+        except Exception:
+            return None
 
     def _decode_qr(self, cv_image):
         """Return list of (landmark_name, polygon_pts) decoded from the frame.
@@ -113,15 +117,16 @@ class QRDetectorNode(Node):
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
                 if landmark_name not in self.detected_landmarks:
-                    position = {
-                        'x': round(self.current_x, 3),
-                        'y': round(self.current_y, 3),
-                        'z': 0.0,
-                    }
+                    pos = self._get_map_position()
+                    if pos is None:
+                        self.get_logger().warn(
+                            f'map→base_footprint TF not ready, skipping "{landmark_name}"')
+                        continue
+                    position = {'x': round(pos[0], 3), 'y': round(pos[1], 3), 'z': 0.0}
                     self.detected_landmarks[landmark_name] = position
                     self.get_logger().info(
                         f'NEW LANDMARK: "{landmark_name}" '
-                        f'at x={position["x"]}, y={position["y"]}')
+                        f'at x={position["x"]}, y={position["y"]} (map frame)')
                     self._save()
                 else:
                     self.get_logger().debug(f'Already known: {landmark_name}')

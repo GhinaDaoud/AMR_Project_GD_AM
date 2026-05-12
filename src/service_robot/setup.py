@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'explorer        = service_robot.explorer:main',
             'map_auto_saver  = service_robot.map_auto_saver:main',
+            'teleop_mux      = service_robot.teleop_mux:main',
         ],
     },
 )
