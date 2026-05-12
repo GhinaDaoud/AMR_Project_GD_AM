@@ -6,14 +6,11 @@ A ROS2-based autonomous mobile robot that maps a simulated town using SLAM, dete
 
 ## Demo
 
-<!-- Add screenshots or a demo video link here -->
-> 📸 Place screenshots in `docs/images/` and reference them below.
-> 🎥 For videos, upload to YouTube and paste the link.
-https://youtu.be/ttTxQ7kZ4OM
+🎥 Full demo: https://youtu.be/ttTxQ7kZ4OM
 
-| Mapping Phase | Navigation Phase | Web GUI |
+| Mapping & QR Detection | Autonomous Navigation | Web Mission GUI |
 |:---:|:---:|:---:|
-| ![SLAM Map](docs/images/slam_map.png) | ![Nav2 Path](docs/images/nav2_path.png) | ![Web GUI](docs/images/web_gui.png) |
+| ![Mapping](docs/images/mapping.gif) | ![Navigation](docs/images/navigation.gif) | ![GUI](docs/images/web_gui.gif) |
 
 ---
 
@@ -180,9 +177,4 @@ phases/
     └── models/                # Buildings, signs, QR textures
 ```
 
----
 
-## Adding Media
-
-Place screenshots and images in `docs/images/` and update the table at the top of this file.
-For videos, upload to YouTube and add the link or embed badge here.
