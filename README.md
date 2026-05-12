@@ -8,9 +8,7 @@ A ROS2-based autonomous mobile robot that maps a simulated town using SLAM, dete
 
 🎥 Full demo: https://youtu.be/ttTxQ7kZ4OM
 
-| Mapping & QR Detection | Autonomous Navigation | Web Mission GUI |
-|:---:|:---:|:---:|
-| ![Mapping](docs/images/mapping.gif) | ![Navigation](docs/images/navigation.gif) | ![GUI](docs/images/web_gui.gif) |
+![Demo](docs/images/demo.gif)
 
 ---
 
