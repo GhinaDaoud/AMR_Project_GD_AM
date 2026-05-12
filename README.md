@@ -142,21 +142,7 @@ The robot handles unexpected obstacles at runtime using Nav2's live obstacle lay
 
 This was developed as a collaborative extension to the base navigation stack.
 
-> 📂 Code for this feature will be added to the repository shortly.
 
----
-
-## Key Design Decisions
-
-| Problem | Solution |
-|---|---|
-| Robot tipping backwards | Drive wheels moved 5 cm rearward — CoM inside support triangle |
-| All QR signs showing same texture | Unique PNG filename per sign defeats Gazebo texture cache |
-| Gazebo freeze on fire station QR | `pyzbar` only called when `cv2` finds nothing |
-| Landmark coordinates wrong (odom drift) | QR detector uses TF `map → base_footprint` instead of `/odom` |
-| Phantom obstacles blocking paths | Static-map-only costmap — no live LiDAR obstacle layer |
-| Map lost on Gazebo close | Manual force-save commands; Gazebo server/GUI split option |
-| Robot stuck in dead-ends | Hybrid teleop mux — keyboard overrides explorer instantly |
 
 ---
 
